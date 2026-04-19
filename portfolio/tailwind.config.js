@@ -23,6 +23,9 @@ module.exports = {
         'neon-red': '0 0 20px rgba(255, 0, 64, 0.5)',
         'neon-purple': '0 0 20px rgba(138, 43, 226, 0.5)',
       },
+      animation: {
+        'spin-slow': 'spin 8s linear infinite',
+      },
     },
   },
   plugins: [],

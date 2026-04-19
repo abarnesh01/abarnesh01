@@ -1,138 +1,181 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import SplineScene from './SplineScene'
+import Image from 'next/image'
 
-const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i) => ({
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: 'easeOut',
-    },
-  }),
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+  },
 }
 
 export default function Hero() {
-  const mouseX = useRef(0)
-  const mouseY = useRef(0)
+  const containerRef = useRef(null)
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const { scrollY } = useScroll()
 
-  const handleMouseMove = (e) => {
-    mouseX.current = e.clientX
-    mouseY.current = e.clientY
-  }
+  const y1 = useTransform(scrollY, [0, 500], [0, 200])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!containerRef.current) return
+      const { clientX, clientY } = e
+      setMousePos({ x: clientX, y: clientY })
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
 
   return (
     <section
-      onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center bg-gradient-dark overflow-hidden"
+      ref={containerRef}
+      className="relative min-h-screen flex items-center overflow-hidden bg-dark-bg pt-20"
     >
-      {/* Animated background gradient */}
+      {/* Dynamic Cursor Spotlight */}
       <motion.div
-        className="absolute inset-0 opacity-30"
+        className="pointer-events-none fixed inset-0 z-30"
         animate={{
-          background: [
-            'radial-gradient(circle at 20% 50%, #00f5ff 0%, transparent 50%)',
-            'radial-gradient(circle at 80% 50%, #8a2be2 0%, transparent 50%)',
-            'radial-gradient(circle at 20% 50%, #00f5ff 0%, transparent 50%)',
-          ],
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 245, 255, 0.08), transparent 80%)`,
         }}
-        transition={{ duration: 10, repeat: Infinity }}
       />
 
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        {/* Main heading */}
-        <motion.h1
-          className="text-7xl md:text-8xl font-bold mb-6 neon-text"
-          custom={0}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          ABARNESH S
-        </motion.h1>
+      {/* Hero Background Gradient */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-dark-bg/50 to-dark-bg" />
+        <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-neon-purple/5 rounded-full blur-[150px] translate-x-1/3 translate-y-1/3" />
+      </div>
 
-        {/* Subtitle */}
-        <motion.p
-          className="text-xl md:text-2xl mb-4 text-neon-cyan"
-          custom={1}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          Cybersecurity Engineer • SOC Analyst • CTF Player
-        </motion.p>
-
-        {/* Description */}
-        <motion.p
-          className="text-lg md:text-xl mb-8 text-gray-300"
-          custom={2}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          Elite security researcher specializing in threat detection, AI security,
-          and SOC operations
-        </motion.p>
-
-        {/* CTA Buttons */}
+      <div className="container mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* LEFT CONTENT */}
         <motion.div
-          className="flex gap-4 justify-center mb-12"
-          custom={3}
-          variants={textVariants}
+          variants={containerVariants}
           initial="hidden"
           animate="visible"
+          className="space-y-10"
         >
-          <button className="px-8 py-3 bg-neon-cyan text-black font-bold rounded hover-glow">
-            View Work
-          </button>
-          <button className="px-8 py-3 border-2 border-neon-red text-neon-red font-bold rounded hover-glow">
-            Contact
-          </button>
+          {/* Profile Badge with Floating Animation */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-6"
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-32 h-32 md:w-36 md:h-36 group cursor-pointer"
+            >
+              <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative w-full h-full rounded-full p-1 bg-gradient-neon group-hover:scale-105 transition-transform duration-500">
+                <div className="w-full h-full rounded-full overflow-hidden bg-dark-bg">
+                  <Image
+                    src="/profile.png"
+                    alt="Abarnesh S"
+                    fill
+                    className="object-cover transition-all duration-500 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                  />
+                </div>
+              </div>
+              <div className="absolute -inset-2 rounded-full border border-neon-cyan/20 animate-spin-slow opacity-50 group-hover:opacity-100 transition-opacity" />
+            </motion.div>
+
+            <div className="space-y-1">
+              <motion.span
+                variants={itemVariants}
+                className="text-neon-cyan text-sm font-bold tracking-[0.3em] uppercase"
+              >
+                Security Architect
+              </motion.span>
+              <motion.h1
+                variants={itemVariants}
+                className="text-5xl md:text-7xl font-bold tracking-tight text-white"
+              >
+                Abarnesh <span className="text-neon-cyan neon-text">S</span>
+              </motion.h1>
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-medium text-gray-300">
+              Cybersecurity Engineer <span className="text-neon-red">_</span>
+            </h2>
+            <p className="text-lg text-gray-400 max-w-lg leading-relaxed font-light">
+              Designing robust digital fortresses. Specializing in threat intelligence,
+              automated defense systems, and securing the next generation of AI infrastructures.
+            </p>
+          </motion.div>
+
+          {/* Action Buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap gap-6 mt-4"
+          >
+            <button className="glass-card px-8 py-4 text-white font-bold tracking-wide hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all">
+              Initiate Contact
+            </button>
+            <button className="px-8 py-4 border border-white/10 text-gray-400 font-medium rounded-xl hover:text-white hover:bg-white/5 transition-all">
+              View Database
+            </button>
+          </motion.div>
+
+          {/* Live Signal */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-3 pt-4"
+          >
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-red opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-neon-red"></span>
+            </span>
+            <span className="text-xs text-gray-500 uppercase tracking-widest font-bold">System Status: Optimal</span>
+          </motion.div>
         </motion.div>
 
-        {/* Social Links */}
+        {/* RIGHT CONTENT: SPLINE */}
         <motion.div
-          className="flex gap-6 justify-center text-2xl"
-          custom={4}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="relative h-[500px] lg:h-[700px] w-full"
         >
-          <motion.a
-            href="https://github.com/abarnesh"
-            whileHover={{ scale: 1.2 }}
-            className="text-neon-cyan hover:text-neon-red transition"
-          >
-            GitHub
-          </motion.a>
-          <motion.a
-            href="https://linkedin.com/in/abarnesh"
-            whileHover={{ scale: 1.2 }}
-            className="text-neon-purple hover:text-neon-cyan transition"
-          >
-            LinkedIn
-          </motion.a>
-          <motion.a
-            href="mailto:abarnesh772@gmail.com"
-            whileHover={{ scale: 1.2 }}
-            className="text-neon-red hover:text-neon-purple transition"
-          >
-            Email
-          </motion.a>
+          <div className="absolute inset-0 z-0">
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
+          </div>
+
+          {/* Neon Grid Overlay */}
+          <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll Down Indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        style={{ opacity }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20"
       >
-        <div className="text-neon-cyan">↓</div>
+        <span className="text-[10px] text-gray-500 uppercase tracking-[0.4em] font-bold">Protocol: Scroll</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-px h-16 bg-gradient-to-b from-neon-cyan to-transparent"
+        />
       </motion.div>
     </section>
   )

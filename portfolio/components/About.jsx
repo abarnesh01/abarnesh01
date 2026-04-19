@@ -4,67 +4,61 @@ import { motion } from 'framer-motion'
 
 export default function About() {
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center bg-dark-secondary py-20">
-      <div className="max-w-4xl mx-auto px-4">
-        <motion.h2
-          className="text-5xl md:text-6xl font-bold mb-12 text-center text-neon-cyan neon-text"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          About Me
-        </motion.h2>
+    <section id="about" className="min-h-screen flex items-center justify-center bg-dark-bg py-24 relative">
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
 
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          className="glass p-8 rounded-lg mb-8 border border-neon-cyan border-opacity-20 hover-glow"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-4xl mx-auto"
         >
-          <p className="text-lg text-gray-200 mb-6">
-            I'm an elite cybersecurity engineer with a passion for protecting critical infrastructure
-            and detecting sophisticated threats. With expertise in AI-powered security solutions, SOC
-            operations, and penetration testing, I combine technical depth with strategic security thinking.
-          </p>
+          <div className="flex flex-col items-center mb-16 text-center">
+            <motion.span
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="h-px w-24 bg-neon-cyan mb-8 origin-center"
+            />
+            <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tighter">
+              THE <span className="text-neon-cyan neon-text">ARCHITECT</span>
+            </h2>
+            <p className="text-gray-500 uppercase tracking-[0.3em] text-sm">Profile Overview</p>
+          </div>
 
-          <p className="text-lg text-gray-200 mb-6">
-            My work spans threat detection systems, network security, and machine learning-based anomaly
-            detection. I compete in CTFs at the national level and continuously advance my skills in
-            emerging security technologies.
-          </p>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+            <div className="md:col-span-12 glass-card p-10 md:p-14 space-y-8 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/5 blur-3xl group-hover:bg-neon-cyan/10 transition-colors" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <motion.div
-              className="border-l-4 border-neon-cyan pl-4"
-              whileHover={{ x: 10 }}
-            >
-              <h3 className="text-neon-cyan font-bold mb-2">🎓 Education</h3>
-              <p className="text-gray-300">B.E CSE (Cybersecurity) @ KGISL Institute of Technology</p>
-            </motion.div>
+              <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed">
+                Elite cybersecurity engineer focused on <span className="text-white font-medium italic">protecting critical infrastructure</span>.
+                With technical depth in AI-powered defense, SOC operations, and advanced threat hunting,
+                I build digital shells that evolve faster than the threats they stop.
+              </p>
 
-            <motion.div
-              className="border-l-4 border-neon-red pl-4"
-              whileHover={{ x: 10 }}
-            >
-              <h3 className="text-neon-red font-bold mb-2">🏆 Certifications</h3>
-              <p className="text-gray-300">Google Cybersecurity Professional | Cisco Ethical Hacking</p>
-            </motion.div>
-
-            <motion.div
-              className="border-l-4 border-neon-purple pl-4"
-              whileHover={{ x: 10 }}
-            >
-              <h3 className="text-neon-purple font-bold mb-2">🎯 Focus</h3>
-              <p className="text-gray-300">AI Security, Threat Detection, SOC Systems</p>
-            </motion.div>
-
-            <motion.div
-              className="border-l-4 border-neon-cyan pl-4"
-              whileHover={{ x: 10 }}
-            >
-              <h3 className="text-neon-cyan font-bold mb-2">📍 Location</h3>
-              <p className="text-gray-300">Coimbatore, India</p>
-            </motion.div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+                {[
+                  { label: 'Education', val: 'B.E CSE (Cybersecurity)', icon: '🎓', color: 'text-neon-cyan' },
+                  { label: 'Certifications', val: 'Google Cybersecurity | Cisco EH', icon: '🏆', color: 'text-neon-red' },
+                  { label: 'Core Focus', val: 'AI Security & Threat Intelligence', icon: '🎯', color: 'text-neon-purple' },
+                  { label: 'Location', val: 'Coimbatore, India', icon: '📍', color: 'text-neon-cyan' }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ x: 10 }}
+                    className="space-y-2 group/item"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg">{item.icon}</span>
+                      <h3 className={`${item.color} font-bold text-sm uppercase tracking-widest`}>{item.label}</h3>
+                    </div>
+                    <p className="text-gray-400 font-medium">{item.val}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

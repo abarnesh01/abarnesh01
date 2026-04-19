@@ -4,24 +4,29 @@ import { motion } from 'framer-motion'
 
 export default function Footer() {
   return (
-    <footer className="bg-dark-bg border-t border-neon-cyan border-opacity-20 py-8">
-      <div className="max-w-6xl mx-auto px-4 text-center">
-        <motion.p
-          className="text-gray-400 mb-4"
+    <footer className="bg-dark-bg border-t border-white/5 py-12 relative overflow-hidden">
+      <div className="absolute inset-0 bg-neon-cyan/5 opacity-20 pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10 text-center space-y-6">
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center gap-4"
         >
-          "Access granted. Monitoring continues..."
-        </motion.p>
+          <div className="h-[1px] w-12 bg-neon-cyan/50" />
+          <p className="text-gray-500 font-bold uppercase tracking-[0.5em] text-[10px]">
+            Connection Terminated // Monitoring Mode Active
+          </p>
+          <div className="h-[1px] w-12 bg-neon-cyan/50" />
+        </motion.div>
 
         <motion.p
-          className="text-sm text-gray-500"
+          className="text-gray-400 font-light tracking-wide text-sm"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 1 }}
         >
-          © 2026 Abarnesh S. All rights reserved.
+          © 2026 <span className="text-white font-bold">ABARNESH S</span>. Engineered for Resilience.
         </motion.p>
       </div>
     </footer>

@@ -2,49 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #050505;
-  color: #ffffff;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Glassmorphism effect */
-.glass {
-  background: rgba(13, 17, 23, 0.7);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 245, 255, 0.1);
-}
-
-/* Neon glow animations */
-@keyframes neon-glow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5), 0 0 20px rgba(0, 245, 255, 0.3);
+@layer base {
+  :root {
+    --background: 5 5% 2%;
+    --foreground: 0 0% 100%;
+    --primary: 182 100% 50%;
+    --secondary: 345 100% 50%;
+    --accent: 271 81% 52%;
   }
-  50% {
-    text-shadow: 0 0 20px rgba(0, 245, 255, 1), 0 0 30px rgba(0, 245, 255, 0.6);
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #050505;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
   }
 }
 
-.neon-text {
-  animation: neon-glow 2s ease-in-out infinite;
+@layer components {
+  /* Premium Glassmorphism */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply bg-white/10 border-white/20;
+  }
+
+  /* Neon Glow Utilities */
+  .neon-shadow-cyan {
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+  }
+
+  .neon-shadow-red {
+    box-shadow: 0 0 20px rgba(255, 0, 64, 0.3);
+  }
+
+  .neon-text-cyan {
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+  }
+
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 4s ease-in-out infinite;
+  }
 }
 
-/* Hover glow effect */
-.hover-glow {
-  transition: all 0.3s ease;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.hover-glow:hover {
-  box-shadow: 0 0 30px rgba(0, 245, 255, 0.6);
-  transform: translateY(-5px);
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f5ff;
 }
