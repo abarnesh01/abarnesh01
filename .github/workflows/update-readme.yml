@@ -1,0 +1,74 @@
+name: 🔄 Auto-Update README
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 📊 Fetch latest commits
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Fetch latest commits
+            const commits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 5
+            });
+            
+            let commitLog = `> booting system...\n> fetching latest commits...\n`;
+            
+            commits.data.forEach((commit, index) => {
+              const message = commit.commit.message.split('\n')[0].substring(0, 50);
+              commitLog += `> commit ${index + 1}: ${message}\n`;
+            });
+            
+            commitLog += `> status: ACTIVE\n> _`;
+            
+            // Read current README
+            let readme = fs.readFileSync('README.md', 'utf8');
+            
+            // Find and replace the RECENT ACTIVITY section
+            const startMarker = '## 🔥 RECENT ACTIVITY\n\n```bash\n';
+            const endMarker = '\n```\n\n---';
+            
+            const startIdx = readme.indexOf(startMarker);
+            const endIdx = readme.indexOf(endMarker, startIdx);
+            
+            if (startIdx !== -1 && endIdx !== -1) {
+              const before = readme.substring(0, startIdx + startMarker.length);
+              const after = readme.substring(endIdx);
+              readme = before + commitLog + after;
+              
+              fs.writeFileSync('README.md', readme);
+              console.log('✅ README updated successfully');
+            } else {
+              console.log('⚠️ Markers not found, skipping update');
+            }
+
+      - name: 📝 Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 chore: auto-update README with latest commits" && git push)

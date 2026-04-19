@@ -157,13 +157,17 @@ user@cybersecurity-dc:~$ tail -f access_log.txt
 
 ---
 
-## 🐍 NETWORK TRACE
+## � RECENT ACTIVITY
 
-<div align="center">
-
-<img src="https://github-contribution-grid-snake-dark.vercel.app/github-contribution-grid-snake.svg?username=abarnesh" />
-
-</div>
+```bash
+> booting system...
+> fetching latest commits...
+> commit 1: 🔥 cyberpunk: transform profile into futuristic command center
+> commit 2: feat: redesign README with premium hacker aesthetic
+> commit 3: Initial profile setup
+> status: ACTIVE
+> _
+```
 
 ---
 
