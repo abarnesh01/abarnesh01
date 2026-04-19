@@ -1,146 +1,163 @@
 <div align="center">
 
-<!-- PREMIUM HACKER HEADER -->
-<img src="https://capsule-render.vercel.app/api?type=venom&color=0:000000,30:0d1117,60:ff0040,100:ff6b35&height=240&section=header&text=ABARNESH%20S&fontSize=65&fontColor=ff0040&animation=fadeIn&fontAlignY=35&desc=Cybersecurity%20Engineer%20%7C%20SOC%20Analyst%20%7C%20CTF%20Player&descAlignY=70&descAlign=50&descSize=18&descColor=ff6b35&stroke=ff0040&strokeWidth=2" />
+<!-- CYBERPUNK HEADER BANNER -->
+<img src="https://capsule-render.vercel.app/api?type=venom&color=0:050505,30:0d1117,60:00f5ff,100:8a2be2&height=250&section=header&text=ABARNESH%20S&fontSize=70&fontColor=00f5ff&animation=fadeIn&fontAlignY=35&desc=Cybersecurity%20Engineer%20%7C%20SOC%20Analyst%20%7C%20CTF%20Player&descAlignY=70&descAlign=50&descSize=19&descColor=ff0040&stroke=00f5ff&strokeWidth=2" />
 
-<!-- TYPING ANIMATION -->
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=18&duration=2800&pause=800&color=ff0040&center=true&vCenter=true&multiline=true&random=false&width=700&height=100&lines=Cybersecurity+Engineer+%26+SOC+Analyst;Threat+Detection+%7C+Security+Research;CTF+Player+%7C+Penetration+Testing;AI+Security+%7C+Computer+Vision;Full+Stack+Developer" alt="Typing SVG" />
+<!-- HACKER TERMINAL TYPING ANIMATION -->
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=19&duration=3000&pause=900&color=00f5ff&center=true&vCenter=true&multiline=true&random=false&width=750&height=120&lines=Initializing+Secure+Systems...;Monitoring+Network+Traffic...;Detecting+Threats+in+Real-Time...;Deploying+AI+Security+Models...;System+Operational.+Access+Granted." alt="Terminal Animation" />
 
 <br/>
 
-<!-- SOCIAL LINKS -->
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/abarnesh)
-[![GitHub](https://img.shields.io/badge/GitHub-%23121011?style=for-the-badge&logo=github&logoColor=ff0040)](https://github.com/abarnesh)
-[![Email](https://img.shields.io/badge/Email-%23D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:abarnesh772@gmail.com)
-[![Portfolio](https://img.shields.io/badge/Portfolio-%23ff6b35?style=for-the-badge&logo=firefox&logoColor=white)](https://abarnesh.dev)
+<!-- SOCIAL LINKS - MINIMAL STYLE -->
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/abarnesh)
+[![GitHub](https://img.shields.io/badge/GitHub-00f5ff?style=flat-square&logo=github&logoColor=000000)](https://github.com/abarnesh)
+[![Email](https://img.shields.io/badge/Email-ff0040?style=flat-square&logo=gmail&logoColor=white)](mailto:abarnesh772@gmail.com)
+[![Portfolio](https://img.shields.io/badge/Portfolio-8a2be2?style=flat-square&logo=firefox&logoColor=white)](https://abarnesh.dev)
 
 </div>
 
 ---
 
-## $ whoami
+## 💻 LIVE TERMINAL SESSION
 
 ```bash
-┌──(abarnesh㉿security)-[~]
-└─$ cat profile.json
-```
+╔════════════════════════════════════════════════════╗
+║   CYBERSECURITY COMMAND CENTER v2.0                ║
+║   Status: ONLINE | Encryption: ACTIVE              ║
+╚════════════════════════════════════════════════════╝
 
-```json
+> boot sequence initiated...
+> loading security modules...
+> establishing secure connection...
+> connected to github.com/abarnesh
+> fetching live profile data...
+> _
+
+user@cybersecurity-dc:~$ whoami
+→ Abarnesh S | Cybersecurity Engineer | SOC Analyst
+
+user@cybersecurity-dc:~$ cat credentials.json
 {
   "name": "Abarnesh S",
-  "role": ["Cybersecurity Engineer", "SOC Analyst", "Full-Stack Developer"],
   "location": "Coimbatore, India 🇮🇳",
-  "education": "B.E CSE (Cybersecurity) @ KGISL Institute of Technology",
-  "batch": "2024 – 2028",
-  "cgpa": "7.68 / 10",
-  "specialization": "AI Security, Threat Detection, SOC Systems",
-  "certifications": [
-    "Google Cybersecurity Professional",
-    "Cisco Ethical Hacking"
-  ],
-  "achievements": {
-    "ctf": "🏆 Breach Point — National Level (Malla Reddy University 2026)",
-    "focus": "Penetration Testing, ML Anomaly Detection, Computer Vision"
-  },
-  "leadership": "Chair — Editorial Board, Rotaract Club KGISL",
-  "status": "Open to Internships & Full-Time Opportunities 🚀"
+  "clearance": "ELITE",
+  "specialization": "AI Security • Threat Detection • SOC Systems",
+  "certifications": ["Google Cybersecurity", "Cisco Ethical Hacking"],
+  "status": "Ready for Deployment",
+  "github": "abarnesh",
+  "linkedin": "abarnesh"
 }
+
+user@cybersecurity-dc:~$ system_status --full
+✓ Network Security: OPERATIONAL
+✓ SIEM Integration: ACTIVE
+✓ Threat Detection: MONITORING
+✓ SOC Operations: RUNNING 24/7
+✓ AI Models: DEPLOYED
+✓ CTF Skills: ELITE LEVEL
+
+user@cybersecurity-dc:~$ tail -f access_log.txt
+[2026-04-19 00:00:00] Access Level: GRANTED
+[2026-04-19 00:00:01] All Systems: ONLINE
+[2026-04-19 00:00:02] Security Status: GREEN
+[2026-04-19 00:00:03] Ready for Operations ✓
 ```
 
 ---
 
-## ⚔️ Arsenal — Tech Stack
+## 🛡️ SECURITY ARSENAL
 
 <div align="center">
 
-### 🔐 Cybersecurity
-![Network Security](https://img.shields.io/badge/Network%20Security-FF0040?style=flat-square)
-![SIEM](https://img.shields.io/badge/SIEM%20Concepts-ff6b35?style=flat-square)
-![Threat Detection](https://img.shields.io/badge/Threat%20Detection-FF0040?style=flat-square)
-![SOC Operations](https://img.shields.io/badge/SOC%20Operations-ff6b35?style=flat-square)
-![Ethical Hacking](https://img.shields.io/badge/Ethical%20Hacking-FF0040?style=flat-square)
-![Penetration Testing](https://img.shields.io/badge/Penetration%20Testing-ff6b35?style=flat-square)
+| **CYBERSECURITY** | **DEVELOPMENT** | **AI & ML** |
+|:---|:---|:---|
+| Network Security | Python | Computer Vision |
+| SIEM Concepts | JavaScript | OpenCV |
+| Threat Detection | Java | EasyOCR |
+| SOC Operations | FastAPI | Anomaly Detection |
+| Ethical Hacking | Express.js | Neural Networks |
+| Penetration Testing | React | Data Science |
 
-### 💻 Development
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
+---
 
-### 🤖 AI & Machine Learning
-![Computer Vision](https://img.shields.io/badge/Computer%20Vision-5C3EE8?style=flat-square)
-![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
-![EasyOCR](https://img.shields.io/badge/EasyOCR-FF6F00?style=flat-square)
-![ML Anomaly Detection](https://img.shields.io/badge/ML%20Anomaly%20Detection-FF0040?style=flat-square)
-
-### 🛠️ Tools & Infrastructure
-![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)
+| **INFRASTRUCTURE** |
+|:---|
+| Git • Docker • Linux • SQL • VS Code |
 
 </div>
 
 ---
 
-## 🚀 Featured Projects
+## � ACTIVE PROJECTS
 
 <div align="center">
 
-### Personal Information Masking Tool
-**High-accuracy OCR-based PII redaction system**
-- Automated detection & redaction of sensitive data (names, DOB, IDs)
-- End-to-end EasyOCR pipeline with 95%+ accuracy
-- Web interface for batch document processing
+### ▸ Personal Information Masking Tool
+**OCR-Based Sensitive Data Detection & Automatic Redaction System**
+- 🎯 95%+ accuracy in PII detection (names, DOB, IDs, passports)
+- ⚡ Real-time batch processing with EasyOCR pipeline
+- 🌐 Web interface for enterprise document handling
 
-**Stack:** Python • EasyOCR • OpenCV • [View Repo →](https://github.com/abarnesh)
-
----
-
-### Civic AI Shield
-**Real-time AI threat detection for public safety**
-- Live CCTV stream analysis with computer vision
-- Automated threat classification & instant alerts
-- Scalable inference pipeline for multi-camera systems
-
-**Stack:** Python • Computer Vision • React • [View Repo →](https://github.com/abarnesh)
+**Tech Stack:** Python • EasyOCR • OpenCV  
+[![GitHub](https://img.shields.io/badge/View%20Repo-00f5ff?style=flat-square&logo=github)](https://github.com/abarnesh)
 
 ---
 
-### AI Network Traffic Dashboard
-**ML-powered SOC analytics & anomaly detection**
-- Real-time network flow correlation & analysis
-- ML-based behavioral anomaly detection engine
-- Interactive security dashboard with live threat visualization
+### ▸ Civic AI Shield
+**Real-Time AI-Powered Threat Detection for Public Safety**
+- 📹 Live CCTV stream analysis with computer vision
+- 🚨 Automated threat classification & instant emergency alerts
+- 🔄 Scalable inference pipeline for multi-camera deployment
 
-**Stack:** Express.js • React • Machine Learning • [View Repo →](https://github.com/abarnesh)
+**Tech Stack:** Python • Computer Vision • React  
+[![GitHub](https://img.shields.io/badge/View%20Repo-00f5ff?style=flat-square&logo=github)](https://github.com/abarnesh)
+
+---
+
+### ▸ AI Network Traffic Dashboard
+**SOC Analytics Platform with ML-Based Anomaly Detection**
+- 📊 Real-time network flow correlation & behavioral analysis
+- 🤖 Advanced ML anomaly detection engine for threat identification
+- 📈 Interactive security dashboard with live threat visualization
+
+**Tech Stack:** Express.js • React • Machine Learning  
+[![GitHub](https://img.shields.io/badge/View%20Repo-00f5ff?style=flat-square&logo=github)](https://github.com/abarnesh)
 
 </div>
 
 ---
 
-## 📊 GitHub Stats
+## � LIVE ANALYTICS
 
 <div align="center">
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=abarnesh&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117&title_color=ff0040&icon_color=ff6b35&text_color=c9d1d9"/>
+### GitHub Performance Matrix
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=abarnesh&layout=compact&langs_count=8&theme=radical&hide_border=true&bg_color=0d1117&title_color=ff0040&text_color=c9d1d9"/>
+<img height="170em" src="https://github-readme-stats.vercel.app/api?username=abarnesh&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117&title_color=00f5ff&icon_color=ff0040&text_color=c9d1d9&border_color=8a2be2"/>
+
+<img height="170em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=abarnesh&layout=compact&langs_count=8&theme=radical&hide_border=true&bg_color=0d1117&title_color=00f5ff&text_color=c9d1d9&border_color=8a2be2"/>
 
 </div>
 
 <div align="center">
 
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=abarnesh&theme=dark&hide_border=true&background=0d1117&ring=ff0040&fire=ff6b35&currStreakLabel=ff0040" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=abarnesh&theme=dark&hide_border=true&background=0d1117&ring=00f5ff&fire=ff0040&currStreakLabel=00f5ff&sideNums=8a2be2" />
 
 </div>
 
 ---
 
-## 🐍 Contribution Activity
+## 📊 SYSTEM ACTIVITY LOG
+
+<div align="center">
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=abarnesh&theme=xcode-dark&bg_color=0d1117&color=00f5ff&line=ff0040&point=8a2be2&area=true&hide_border=true" />
+
+</div>
+
+---
+
+## 🐍 NETWORK TRACE
 
 <div align="center">
 
@@ -150,36 +167,42 @@
 
 ---
 
-## 🏆 Achievements & Certifications
+## 🏆 CERTIFICATIONS & ACHIEVEMENTS
 
 <div align="center">
 
-| Achievement | Issuer | Details |
-|---|---|---|
-| **Breach Point — National Level CTF** | Malla Reddy University | 24-Hour Cybersecurity Competition (2026) |
-| **Google Cybersecurity Professional** | Google | Comprehensive security certification |
-| **Cisco Ethical Hacking** | Cisco | Advanced penetration testing & hacking |
+```
+╔════════════════════════════════════════════════════╗
+║          ELITE SECURITY CLEARANCE                  ║
+╚════════════════════════════════════════════════════╝
+```
+
+| 🎖️ Achievement | 🏢 Issuer | 📅 Status |
+|:---|:---|:---|
+| **Breach Point — National Level CTF** | Malla Reddy University | COMPLETED 2026 |
+| **Google Cybersecurity Professional** | Google | VERIFIED ✓ |
+| **Cisco Ethical Hacking (CEH)** | Cisco Systems | CERTIFIED ✓ |
 
 </div>
 
 ---
 
-## 🧠 Leadership
+## 🎯 LEADERSHIP & OPERATIONS
 
 **Chair, Editorial Board — Rotaract Club KGISL**
-- Led communications strategy for club newsletters & technical reports
-- Managed official club communications for social & community events
-- Coordinated technical content & cybersecurity awareness initiatives
+- Directed communications strategy for technical newsletters & security reports
+- Coordinated official club operations for community engagement & cybersecurity awareness
+- Led technical content creation & security awareness initiatives
 
 ---
 
-## 💬 Let's Connect
+## 📡 SECURE CHANNEL
 
 <div align="center">
 
-[![LinkedIn](https://img.shields.io/badge/Connect%20on%20LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/abarnesh)
-[![GitHub](https://img.shields.io/badge/Follow%20on%20GitHub-181717?style=for-the-badge&logo=github&logoColor=ff0040)](https://github.com/abarnesh)
-[![Email](https://img.shields.io/badge/Drop%20a%20Mail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:abarnesh772@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn%20Profile-00f5ff?style=for-the-badge&logo=linkedin&logoColor=000000)](https://linkedin.com/in/abarnesh)
+[![GitHub](https://img.shields.io/badge/GitHub%20Repos-ff0040?style=for-the-badge&logo=github&logoColor=ffffff)](https://github.com/abarnesh)
+[![Email](https://img.shields.io/badge/Secure%20Email-8a2be2?style=for-the-badge&logo=gmail&logoColor=white)](mailto:abarnesh772@gmail.com)
 
 </div>
 
@@ -187,8 +210,12 @@
 
 <div align="center">
 
-> **"Hack the system. Secure the future."**
+```
+╔════════════════════════════════════════════════════╗
+║ "Access granted. Monitoring continues..." — ABARNESH
+╚════════════════════════════════════════════════════╝
+```
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,40:1a0008,100:ff0040&height=140&section=footer&text=&animation=fadeIn"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:050505,40:0d1117,100:00f5ff&height=150&section=footer&text=SYSTEM%20ONLINE&fontSize=25&fontColor=ff0040&animation=fadeIn"/>
 
 </div>
