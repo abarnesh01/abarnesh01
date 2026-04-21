@@ -1,15 +1,19 @@
-<div align="center">
+<!-- LOGO & HERO SECTION -->
+<p align="center">
+  <img src="assets/logo.svg" width="100" />
+</p>
 
-<!-- HEADER: HOLLYWOOD LEVEL JARVIS BANNER -->
-<img src="assets/banner.png" width="100%" />
+<img src="assets/banner_animated.png" width="100%" />
 
 <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3500&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=INITIALIZING+JARVIS+CORE...;SCANNING+SYSTEM+INTEGRITY...;SYSTEM+FULLY+OPERATIONAL;WELCOME+COMMANDER." alt="Jarvis Boot" />
 
 <br/>
 
-<!-- AVATAR UPGRADE -->
+<!-- AVATAR & FAKE GLOW -->
 <p align="center">
   <img src="https://avatars.githubusercontent.com/abarnesh01" width="180" style="border-radius: 50%; border: 3px solid cyan; box-shadow: 0 0 20px cyan;" />
+  <br/>
+  ✨ ⚡ <b>ABARNESH S.</b> ⚡ ✨
 </p>
 
 <br/>
