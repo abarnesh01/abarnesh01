@@ -1,31 +1,29 @@
-<div align="center">
-
 <!-- LOGO & HERO SECTION -->
 <p align="center">
-  <img src="assets/logo.svg" width="120" />
+  <img src="assets/logo.svg" width="100" />
 </p>
 
 <img src="assets/banner_animated.png" width="100%" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3500&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=BOOTING+AI+INTERFACE...;SYNCHRONIZING+DATA+STREAMS...;SYSTEM+FULLY+OPERATIONAL;MONITORING+GLOBAL+DEFENSES" alt="Jarvis Boot" />
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3500&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=INITIALIZING+JARVIS+CORE...;SCANNING+SYSTEM+INTEGRITY...;SYSTEM+FULLY+OPERATIONAL;WELCOME+COMMANDER." alt="Jarvis Boot" />
 
 <br/>
 
 <!-- AVATAR & FAKE GLOW -->
 <p align="center">
   <img src="https://avatars.githubusercontent.com/abarnesh01" width="180" style="border-radius: 50%; border: 3px solid cyan; box-shadow: 0 0 20px cyan;" />
-  <br/><br/>
+  <br/>
   ✨ ⚡ <b>ABARNESH S.</b> ⚡ ✨
 </p>
 
 <br/>
 
-<!-- LIVE SYSTEM STATUS PANEL -->
+<!-- SYSTEM STATUS PANEL -->
 <div align="center">
 <pre>
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃  <b>STATUS:</b> <font color="#00f5ff">ONLINE</font>             <b>AI CORE:</b> ACTIVE             <b>NETWORK:</b> STABLE         ┃
-┃  <b>THREAT LEVEL:</b> <font color="#ff0000">LOW</font>      <b>MODE:</b> DEFENSIVE             <b>LOCATION:</b> 11.0°N, 76.9°E  ┃
+┃  <b>[AI] JARVIS CORE:</b> <font color="#00f5ff">ONLINE</font>                                 <b>[SYS] STATUS:</b> OPERATIONAL   ┃
+┃  <b>[SEC] DEFENSE LAYER:</b> ACTIVE                                  <b>[MODE] STATUS:</b> DEFENSIVE     ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 </pre>
 </div>
@@ -37,7 +35,7 @@
 <table width="100%">
   <tr>
     <td width="33.3%" valign="top" align="center">
-      <h4><font color="#00f5ff">◈ SECURITY</font></h4>
+      <h4><font color="#00f5ff">◈ CYBERSECURITY</font></h4>
       <img src="https://img.shields.io/badge/KALI-557C94?style=for-the-badge&logo=kali-linux&logoColor=white" /><br/>
       <img src="https://img.shields.io/badge/METASPLOIT-000000?style=for-the-badge&logo=metasploit&logoColor=white" /><br/>
       <img src="https://img.shields.io/badge/WIRESHARK-1679A7?style=for-the-badge&logo=wireshark&logoColor=white" /><br/>
@@ -79,6 +77,13 @@
       <code><b>STATUS:</b> ACTIVE</code> | <code><b>TECH:</b> PyTorch / React</code>
     </td>
   </tr>
+  <tr>
+    <td align="left">
+      <h3><font color="#00f5ff">[MISSION 03]</font> NETWORK_ANALYTICS_DASH</h3>
+      <p>SOC visualization platform with real-time network flow correlation and ML-based anomaly detection.</p>
+      <code><b>STATUS:</b> STABLE</code> | <code><b>TECH:</b> Express / ML</code>
+    </td>
+  </tr>
 </table>
 
 <br/>
@@ -86,7 +91,7 @@
 ───── 📈 <b>CONTRIBUTION MATRIX</b> ─────
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/abarnesh01/abarnesh01/output/github-contribution-grid-snake-dark.svg" alt="Snake Animation" />
+  <img src="https://raw.githubusercontent.com/abarnesh01/abarnesh01/output/github-snake-dark.svg" alt="Snake Animation" />
 </p>
 
 <br/>
@@ -100,24 +105,18 @@
 
 <br/>
 
-───── ⌨️ <b>LIVE SYSTEM LOG</b> ─────
+───── ⌨️ <b>TERMINAL SESSION</b> ─────
 
 ```bash
-[13:21:04] [SYS] BOOTING KERNEL_JARVIS_v3...
-[13:21:05] [AI] NEURAL CHANNELS: OPERATIONAL
-[13:21:06] [SEC] FIREWALLS: STEALTH_MODE
-[13:21:07] [NET] GLOBAL TUNNEL: STABLE
-[13:21:08] [SYS] SCANNING FOR RECENT ACTIVITY...
+[SYS] Boot sequence initiated...
+[AI] Loading neural modules...
+[SEC] Firewall active...
+[TIME] 14:32: INIT COMPLETE
 
 > whoami
 Abarnesh S. | Cybersecurity Architect & Full Stack Developer
 
-> status --continuous
-[MONITORING] Incoming traffic...
-[TRACKING] Active sessions...
-[SCANNING] Repository integrity...
-
-[AWAITING COMMAND...]
+> SYSTEM READY
 > _
 ```
 
@@ -144,8 +143,8 @@ Abarnesh S. | Cybersecurity Architect & Full Stack Developer
 
 <br/><br/>
 
-<b><font color="#00f5ff">-- JARVIS ACTIVE --</font></b>
+<b><font color="#00f5ff">-- SYSTEM READY FOR DEPLOYMENT --</font></b>
 <br/>
-<img src="https://capsule-render.vercel.app/api?type=waving&color=050505&height=120&section=footer&text=SCANNING%20FOR%20THREATS%20...&fontSize=25&fontColor=00f5ff&animation=fadeIn" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=050505&height=120&section=footer&text=JARVIS%20ONLINE&fontSize=30&fontColor=00f5ff&animation=fadeIn" width="100%" />
 
 </div>
