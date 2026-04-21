@@ -1,103 +1,90 @@
 <div align="center">
 
-<!-- HERO HEADER: TYPING ANIMATION (JARVIS STYLE) -->
-<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=200&section=header&text=ABARNESH%20S&fontSize=80&fontColor=00f5ff&fontAlignY=40&desc=CYBERSECURITY%20ENGINEER%20%2F%20FULL%20STACK%20DEVELOPER&descAlignY=70&descSize=20&descColor=ffffff&stroke=00f5ff&strokeWidth=1" width="100%" />
+<!-- HEADER: JARVIS BOOT SEQUENCE -->
+<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=220&section=header&text=ABARNESH%20S&fontSize=85&fontColor=00f5ff&fontAlignY=40&desc=SYSTEM%20CORE%20v2.0.1%20|%20ACCESS%20GRANTED&descAlignY=70&descSize=18&descColor=ffffff&stroke=00f5ff&strokeWidth=1" width="100%" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=25&duration=4000&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=ENGINEERING+DEFENSIVE+ARCHITECTURE;FOR+THE+AI+ERA;ACCESS+GRANTED+_+;SYSTEM+OPERATIONAL" alt="Jarvis Typing" />
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3500&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=BOOTING+JARVIS+CORE...;SCANNING+BIOMETRICS...;ACCESS+GRANTED+_+;WELCOME+BACK,+SIR." alt="Jarvis Boot" />
 
 <br/>
 
-<!-- SYSTEM STATUS PANEL -->
-<table width="100%">
-  <tr>
-    <td align="center" width="25%">
-      <code>SYSTEM STATUS</code><br/>
-      <b><font color="#00f5ff">ONLINE</font></b>
-    </td>
-    <td align="center" width="25%">
-      <code>PRIMARY ROLE</code><br/>
-      <b>SOC ENGINEER</b>
-    </td>
-    <td align="center" width="25%">
-      <code>LOCATION</code><br/>
-      <b>INDIA [IN-TN]</b>
-    </td>
-    <td align="center" width="25%">
-      <code>FOCUS</code><br/>
-      <b>AI SECURITY</b>
-    </td>
-  </tr>
-</table>
+<!-- SYSTEM STATUS TERMINAL -->
+<pre align="left">
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  <b>SYSTEM STATUS:</b> <font color="#00f5ff">ONLINE</font>                                         <b>ENCRYPTION:</b> ACTIVE    ┃
+┃  <b>MODE:</b> DEFENSIVE SECURITY ARCHITECT                   <b>AI ENGINE:</b> JARVIS v2.0   ┃
+┃  <b>IDENTITY:</b> ABARNESH S.                                <b>NETWORK:</b> SECURED         ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+</pre>
+
+<br/>
+
+<!-- HOLOGRAM PROFILE SECTION -->
+<img src="https://github.com/abarnesh.png?size=150" width="150" style="border-radius: 50%; border: 3px solid #00f5ff; box-shadow: 0 0 20px #00f5ff;" />
+<h3><font color="#00f5ff">--- NEURAL INTERFACE OPERATIONAL ---</font></h3>
 
 ---
 
-## 🛠️ TECH STACK (HUD STYLE)
+## 🛡️ TECH HUD PANELS
 
 <table width="100%">
   <tr>
-    <td width="33.3%" valign="top">
-      <h4>🛡️ CYBERSECURITY</h4>
-      <img src="https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kali-linux&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/Metasploit-000000?style=for-the-badge&logo=metasploit&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/SIEM-00f5ff?style=for-the-badge&logo=splunk&logoColor=black" />
+    <td width="33.3%" valign="top" align="center">
+      <h4><font color="#00f5ff">◈ CYBERSECURITY</font></h4>
+      <img src="https://img.shields.io/badge/KALI-557C94?style=for-the-badge&logo=kali-linux&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/METASPLOIT-000000?style=for-the-badge&logo=metasploit&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/WIRESHARK-1679A7?style=for-the-badge&logo=wireshark&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/SOC_OPS-00f5ff?style=for-the-badge&logo=splunk&logoColor=black" />
     </td>
-    <td width="33.3%" valign="top">
-      <h4>🌐 FRONTEND</h4>
-      <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /><br/>
-      <img src="https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" />
+    <td width="33.3%" valign="top" align="center">
+      <h4><font color="#00f5ff">◈ FRONTEND</font></h4>
+      <img src="https://img.shields.io/badge/NEXT.JS-000000?style=for-the-badge&logo=next.js&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/REACT-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /><br/>
+      <img src="https://img.shields.io/badge/TAILWIND-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/FRAMER-0055FF?style=for-the-badge&logo=framer&logoColor=white" />
     </td>
-    <td width="33.3%" valign="top">
-      <h4>⚙️ BACKEND</h4>
-      <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" /><br/>
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+    <td width="33.3%" valign="top" align="center">
+      <h4><font color="#00f5ff">◈ BACKEND</font></h4>
+      <img src="https://img.shields.io/badge/PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/NODE.JS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/FASTAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" /><br/>
+      <img src="https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white" />
     </td>
   </tr>
 </table>
 
 ---
 
-## 🚀 PROJECTS (MISSION CARDS)
+## 🚀 MISSION LOGS (PROJECTS)
 
-<div align="center">
-
-<table>
+<table width="100%">
   <tr>
-    <td>
-      <h3>PROJECT_01: PII MASKING TOOL</h3>
-      <p align="left"><i>Mission: DATA_REDACTION</i><br/>OCR-based sensitive data detection system achieving 95%+ accuracy in PII detection using EasyOCR and OpenCV.</p>
-      <img src="https://img.shields.io/badge/Stack-Python_|_EasyOCR_|_OpenCV-00f5ff?style=flat-square" />
+    <td align="left">
+      <h3><font color="#00f5ff">[MISSION 01]</font> DATA_REDACTION_CORE</h3>
+      <p>Deployment of a high-precision PII masking engine using EasyOCR and OpenCV. Achieved 95%+ detection rate for sensitive enterprise data.</p>
+      <code><b>STATUS:</b> DEPLOYED</code> | <code><b>TECH:</b> PYTHON / OCR</code>
     </td>
   </tr>
   <tr>
-    <td>
-      <h3>PROJECT_02: CIVIC AI SHIELD</h3>
-      <p align="left"><i>Mission: THREAT_DETECTION</i><br/>Real-time AI-powered threat detection for public safety using live CCTV stream analysis and automated alerts.</p>
-      <img src="https://img.shields.io/badge/Stack-Python_|_ComputerVis_|_React-00f5ff?style=flat-square" />
+    <td align="left">
+      <h3><font color="#00f5ff">[MISSION 02]</font> CIVIC_AI_SHIELD</h3>
+      <p>Real-time threat detection network for public infrastructure. Computer vision analysis for anomalies and automated emergency protocols.</p>
+      <code><b>STATUS:</b> ACTIVE</code> | <code><b>TECH:</b> PyTorch / React</code>
     </td>
   </tr>
   <tr>
-    <td>
-      <h3>PROJECT_03: AI TRAFFIC DASHBOARD</h3>
-      <p align="left"><i>Mission: NETWORK_SECURITY</i><br/>SOC analytics platform with ML-based anomaly detection for real-time network flow correlation.</p>
-      <img src="https://img.shields.io/badge/Stack-Express_|_React_|_ML-00f5ff?style=flat-square" />
+    <td align="left">
+      <h3><font color="#00f5ff">[MISSION 03]</font> NETWORK_ANALYTICS_DASH</h3>
+      <p>SOC-integrated visualization platform providing real-time network flow correlation and ML-based behavioral anomaly detection.</p>
+      <code><b>STATUS:</b> STABLE</code> | <code><b>TECH:</b> Express / ML</code>
     </td>
   </tr>
 </table>
 
-</div>
-
 ---
 
-## 📊 SYSTEM ANALYTICS (HUD)
+## 📊 ANALYTICS HUD
 
 <div align="center">
-
-<!-- ANALYTICS PANEL HEADER -->
 <img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=35&text=%E2%96%BE%20CORE%20PERFORMANCE%20MATRIX%20%E2%96%BE&fontSize=20&fontColor=00f5ff&animation=twinkling" width="100%" />
 
 <br/>
@@ -118,32 +105,26 @@
     </td>
   </tr>
 </table>
-
-<br/>
-
-<!-- FOOTER DECORATION -->
-<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=20&text=SCANNING%20FOR%20NEW%20RECORDS...&fontSize=12&fontColor=ffffff&fontAlignY=50" width="100%" />
-
 </div>
 
 ---
 
-## ⌨️ TERMINAL SESSION
+## ⌨️ SYSTEM ACTIVITY LOG
 
 ```bash
-[SYSTEM]: INITIALIZING JARVIS CORE...
-[STATUS]: BIOMETRIC SCAN COMPLETE
-[ACCESS]: LEVEL 5 GRANTED
+[JAN-2026]: INITIALIZING SECURE SHELL...
+[STATUS]: AUTH_SUCCESS_ENCRYPTED_LEVEL_9
 
 > whoami
-Abarnesh S. (Cybersecurity Architect)
+Abarnesh S. | Cybersecurity Engineer & Developer
 
-> fetch --security-status
-[✓] Firewall: ACTIVE
-[✓] Neural Net: LEARNING
-[✓] Threat Intel: UPDATED
+> fetch --defense-status
+[✓] Perimeter Defense: ACTIVE
+[✓] AI Heuristics: ANALYZING
+[✓] System Integrity: OPTIMAL
 
-> echo "Engineering defensive architecture for the AI era."
+> cat readme.txt
+"Engineering the future of defensive architecture."
 ```
 
 ---
@@ -159,18 +140,16 @@ Abarnesh S. (Cybersecurity Architect)
 
 ---
 
-## 📡 CONTACT PANEL
+## 📡 SECURE TRANSMISSION (CONTACT)
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GITHUB-000000?style=for-the-badge&logo=github&logoColor=00f5ff)](https://github.com/abarnesh)
 [![LinkedIn](https://img.shields.io/badge/LINKEDIN-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/abarnesh)
+[![GitHub](https://img.shields.io/badge/GITHUB-000000?style=for-the-badge&logo=github&logoColor=00f5ff)](https://github.com/abarnesh)
 [![Email](https://img.shields.io/badge/EMAIL-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:abarnesh772@gmail.com)
-
-</div>
 
 <br/>
 
-<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=050505&height=100&section=footer&text=JARVIS%20V2.0%20ONLINE&fontSize=20&fontColor=00f5ff" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=050505&height=120&section=footer&text=JARVIS%20v2.0%20OFFLINE&fontSize=25&fontColor=00f5ff&animation=fadeIn" width="100%" />
+
 </div>
