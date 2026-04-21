@@ -1,7 +1,7 @@
 <div align="center">
 
-<!-- HEADER: JARVIS BOOT SEQUENCE -->
-<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=220&section=header&text=ABARNESH%20S&fontSize=85&fontColor=00f5ff&fontAlignY=40&desc=JARVIS%20ONLINE%20|%20SYSTEM%20SECURED&descAlignY=70&descSize=18&descColor=ffffff&stroke=00f5ff&strokeWidth=1" width="100%" />
+<!-- HEADER: HOLLYWOOD LEVEL JARVIS BANNER -->
+<img src="assets/banner.png" width="100%" />
 
 <img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=28&duration=3500&pause=1000&color=00f5ff&center=true&vCenter=true&width=800&height=50&lines=INITIALIZING+JARVIS+CORE...;SCANNING+SYSTEM+INTEGRITY...;SYSTEM+FULLY+OPERATIONAL;WELCOME+COMMANDER." alt="Jarvis Boot" />
 
