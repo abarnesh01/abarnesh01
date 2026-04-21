@@ -88,6 +88,14 @@
 
 <br/>
 
+───── 📈 <b>CONTRIBUTION MATRIX</b> ─────
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/abarnesh01/abarnesh01/output/github-contribution-grid-snake-dark.svg" alt="Snake Animation" />
+</p>
+
+<br/>
+
 ───── 📊 <b>ANALYTICS HUD</b> ─────
 
 <p align="center">
