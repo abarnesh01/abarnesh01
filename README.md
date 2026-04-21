@@ -93,15 +93,38 @@
 
 ---
 
-## 📊 GITHUB STATS
+## 📊 SYSTEM ANALYTICS (HUD)
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=abarnesh&show_icons=true&theme=transparent&title_color=00f5ff&text_color=ffffff&icon_color=00f5ff&hide_border=true&include_all_commits=true&count_private=true" width="48%" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=abarnesh&layout=compact&theme=transparent&title_color=00f5ff&text_color=ffffff&hide_border=true" width="48%" />
-</p>
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=abarnesh&theme=transparent&hide_border=true&currStreakLabel=00f5ff&sideNums=ffffff&fire=00f5ff&ring=00f5ff" width="90%" />
-</p>
+<div align="center">
+
+<!-- ANALYTICS PANEL HEADER -->
+<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=35&text=%E2%96%BE%20CORE%20PERFORMANCE%20MATRIX%20%E2%96%BE&fontSize=20&fontColor=00f5ff&animation=twinkling" width="100%" />
+
+<br/>
+
+<table width="100%">
+  <tr>
+    <td width="58%" align="center">
+      <img src="https://github-readme-stats.vercel.app/api?username=abarnesh&show_icons=true&theme=transparent&title_color=00f5ff&text_color=ffffff&icon_color=00f5ff&hide_border=false&border_color=00f5ff&bg_color=0d1117&include_all_commits=true&count_private=true" width="100%" />
+    </td>
+    <td width="42%" align="center">
+      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=abarnesh&layout=compact&theme=transparent&title_color=00f5ff&text_color=ffffff&hide_border=false&border_color=00f5ff&bg_color=0d1117&langs_count=6" width="100%" />
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <br/>
+      <img src="https://github-readme-streak-stats.herokuapp.com/?user=abarnesh&theme=transparent&hide_border=false&border=00f5ff&stroke=00f5ff&background=0d1117&currStreakLabel=00f5ff&sideNums=ffffff&fire=00f5ff&ring=00f5ff" width="100%" />
+    </td>
+  </tr>
+</table>
+
+<br/>
+
+<!-- FOOTER DECORATION -->
+<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=20&text=SCANNING%20FOR%20NEW%20RECORDS...&fontSize=12&fontColor=ffffff&fontAlignY=50" width="100%" />
+
+</div>
 
 ---
 
