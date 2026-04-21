@@ -70,42 +70,49 @@ export default function Hero() {
           animate="visible"
           className="space-y-10"
         >
-          {/* Profile Badge with Floating Animation */}
+          {/* Profile Badge with Floating Animation and Tilt */}
           <motion.div
             variants={itemVariants}
             className="flex items-center gap-6"
           >
             <motion.div
+              style={{ transformStyle: "preserve-3d" }}
+              whileHover={{ rotateX: -10, rotateY: 10, scale: 1.05 }}
               animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-32 h-32 md:w-36 md:h-36 group cursor-pointer"
+              transition={{
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                rotateX: { type: "spring", stiffness: 100 },
+                rotateY: { type: "spring", stiffness: 100 }
+              }}
+              className="relative w-32 h-32 md:w-40 md:h-40 group cursor-pointer"
             >
-              <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative w-full h-full rounded-full p-1 bg-gradient-neon group-hover:scale-105 transition-transform duration-500">
-                <div className="w-full h-full rounded-full overflow-hidden bg-dark-bg">
+              <div className="absolute inset-0 rounded-full bg-neon-cyan/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative w-full h-full rounded-full p-1 bg-gradient-neon shadow-[0_0_20px_rgba(0,245,255,0.2)]">
+                <div className="w-full h-full rounded-full overflow-hidden bg-dark-bg border border-white/10">
                   <Image
                     src="/profile.png"
                     alt="Abarnesh S"
                     fill
-                    className="object-cover transition-all duration-500 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                    className="object-cover transition-all duration-500 group-hover:scale-110"
                   />
                 </div>
               </div>
-              <div className="absolute -inset-2 rounded-full border border-neon-cyan/20 animate-spin-slow opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute -inset-4 rounded-full border border-neon-cyan/20 animate-spin-slow opacity-50 group-hover:opacity-100 transition-opacity" />
             </motion.div>
 
             <div className="space-y-1">
-              <motion.span
-                variants={itemVariants}
-                className="text-neon-cyan text-sm font-bold tracking-[0.3em] uppercase"
+              <motion.div
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-neon-cyan text-[10px] font-bold tracking-[0.5em] uppercase mb-2"
               >
-                Security Architect
-              </motion.span>
+                Neural Link: Established
+              </motion.div>
               <motion.h1
                 variants={itemVariants}
-                className="text-5xl md:text-7xl font-bold tracking-tight text-white"
+                className="text-5xl md:text-8xl font-black tracking-tighter text-white uppercase italic"
               >
-                Abarnesh <span className="text-neon-cyan neon-text">S</span>
+                Abarnesh <span className="text-neon-cyan neon-text tracking-normal not-italic">S</span>
               </motion.h1>
             </div>
           </motion.div>

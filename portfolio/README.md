@@ -1,76 +1,21 @@
-# 🎯 Cybersecurity Portfolio Website
+# Portfolio Web — [Abarnesh S / abarnesh]
 
-Elite cybersecurity engineer portfolio with futuristic cyberpunk design.
+Hi, I'm Abarnesh S (GitHub: `abarnesh`).
 
-## 🚀 Features
+A passionate Cybersecurity student with hands-on experience in threat detection, anomaly detection, and PII data masking. Certified by Google and Cisco, with CTF experience and strong Linux proficiency.
 
-- **Next.js 14** - React framework for production
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations & transitions
-- **Responsive Design** - Works on all devices
-- **Dark Theme** - Easy on the eyes with neon accents
-- **Glass UI** - Modern glassmorphism effects
+* **Email:** [abarnesh772@gmail.com](mailto:abarnesh772@gmail.com)
+* **LinkedIn:** [linkedin.com/in/abarnesh](https://www.linkedin.com/in/abarnesh)
+* **GitHub:** [github.com/abarnesh](https://github.com/abarnesh)
 
-## 📋 Sections
+## 🛠️ Stack & Tools
+- Python, JavaScript, Bash
+- Linux (Garuda)
+- React, FastAPI, Express.js
+- OpenCV, EasyOCR
+- Docker, Git, SIEM Concepts
 
-- **Hero** - Eye-catching introduction
-- **About** - Professional background
-- **Skills** - Technical expertise
-- **Projects** - Featured work
-- **Achievements** - Certifications & awards
-- **Contact** - Get in touch
-- **Footer** - Social links
-
-## 🛠️ Installation
-
-```bash
-cd portfolio
-npm install
-```
-
-## 🎬 Development
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000)
-
-## 🔨 Build
-
-```bash
-npm run build
-npm start
-```
-
-## 🚀 Deployment
-
-Deploy on [Vercel](https://vercel.com):
-
-```bash
-npx vercel
-```
-
-## 📱 Responsive
-
-- Mobile-first design
-- Optimized for all screen sizes
-- Touch-friendly interactions
-
-## 🎨 Colors
-
-- **Cyan**: `#00f5ff`
-- **Red**: `#ff0040`
-- **Purple**: `#8a2be2`
-- **Dark BG**: `#050505`
-
-## ⚡ Performance
-
-- Optimized images
-- Code splitting
-- Static optimization
-- CSS minification
-
-## 📄 License
-
-MIT © 2026 Abarnesh S
+## 🚀 Projects
+- **Personal Information Masking Tool**: Auto-detect and mask PII in identity documents using OCR.
+- **Civic AI Shield**: AI-powered CCTV and live camera threat monitoring system.
+- **AI Network Traffic Monitoring Dashboard**: Real-time ML-powered anomaly detection for SOC simulations.

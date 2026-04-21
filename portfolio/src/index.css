@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ✅ GLOBAL RESET + BACKGROUND */
+body {
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ✅ ROOT FIX (IMPORTANT) */
+#root {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 🔥 FORCED VISIBILITY FIX */
+.reveal-hidden,
+.hide-section,
+.hidden,
+[data-aos] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+section {
+  position: relative;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+.show-section,
+.reveal-show {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+/* 💎 CONTACT BUTTON STYLE */
+.contact-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.4s ease;
+  text-decoration: none;
+}
+
+.contact-btn:hover {
+  background: rgba(0, 245, 255, 0.05);
+  border-color: #00f5ff;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+}
+
+.contact-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.contact-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width: 640px) {
+  .contact-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 💎 BUTTON BASE */
+.btn {
+  padding: 12px 20px;
+  border-radius: 9999px;
+  background: #111;
+  border: 1px solid #333;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1a1a1a;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+}
+
+/* 🕵️ CUSTOM CURSOR GLOW SYSTEM */
+.cursor-glow {
+  position: fixed;
+  top: -16px;
+  /* Offset for half of height */
+  left: -16px;
+  /* Offset for half of width */
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 245, 255, 0.1);
+  border: 1.5px solid rgba(0, 245, 255, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: screen;
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.cursor-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: #00f5ff;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #00f5ff, 0 0 30px rgba(0, 245, 255, 0.5);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+/* Hovering State */
+.cursor-glow.hovering {
+  width: 64px;
+  height: 64px;
+  top: -32px;
+  left: -32px;
+  background: rgba(138, 43, 226, 0.15);
+  border-color: rgba(138, 43, 226, 0.8);
+}
+
+.cursor-glow.hovering .cursor-inner {
+  width: 8px;
+  height: 8px;
+  background: #8a2be2;
+  box-shadow: 0 0 20px #8a2be2;
+}
+
+/* Click Active State */
+.cursor-glow.clicked {
+  transform: scale(0.85);
+  background: rgba(0, 245, 255, 0.3);
+}
+
+/* Hide cursor on mobile/touch devices */
+@media (max-width: 1024px) {
+  .cursor-glow {
+    display: none !important;
+  }
+}
