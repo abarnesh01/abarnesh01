@@ -1,75 +1,62 @@
 import os
 import cv2
-import mediapipe as mp
 import numpy as np
-import pandas as pd
+import mediapipe as mp
+from pathlib import Path
 from loguru import logger
-from tqdm import tqdm
+import json
 
 class DatasetPrep:
-    """
-    Prepares skeleton landmark datasets from video files for training the Action Classifier.
-    Extracts temporal sequences of landmarks.
-    """
-    def __init__(self, seq_length: int = 30):
-        self.seq_length = seq_length
-        self.mp_pose = mp.solutions.pose
-        self.pose = self.mp_pose.Pose(static_image_mode=False, model_complexity=1)
+    """Prepares skeleton landmarks from video datasets for classifier training."""
+
+    def __init__(self, output_path: str = "training/data/processed_landmarks.json"):
+        self.output_path = Path(output_path)
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
+        self.mp_pose = mp.solutions.pose.Pose(static_image_mode=False, model_complexity=1)
 
     def extract_landmarks_from_video(self, video_path: str, label: str):
-        """
-        Processes a video and returns a list of sequences.
-        Each sequence is (seq_length, 33*2) landmarks.
-        """
+        """Processes a video and returns a list of frame-by-frame landmarks."""
         cap = cv2.VideoCapture(video_path)
-        sequence = []
-        data = []
+        video_data = []
         
         while cap.isOpened():
             ret, frame = cap.read()
-            if not ret: break
+            if not ret:
+                break
             
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = self.pose.process(frame_rgb)
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = self.mp_pose.process(rgb_frame)
             
             if results.pose_landmarks:
                 landmarks = []
-                for lm in results.pose_landmarks.landmark:
-                    landmarks.extend([lm.x, lm.y]) # We use X and Y only for simplicity
-                
-                sequence.append(landmarks)
-                
-                if len(sequence) == self.seq_length:
-                    data.append({
-                        "sequence": np.array(sequence).flatten().tolist(),
-                        "label": label
-                    })
-                    sequence = [] # Reset for next segment or use sliding window
-                    
-        cap.release()
-        return data
-
-    def process_directory(self, base_dir: str, output_csv: str):
-        """
-        Recursively processes videos in subdirectories (where subdir name is the label).
-        """
-        all_data = []
-        for label in os.listdir(base_dir):
-            label_dir = os.path.join(base_dir, label)
-            if not os.path.isdir(label_dir): continue
-            
-            logger.info(f"Processing class: {label}")
-            for video_file in tqdm(os.listdir(label_dir)):
-                video_path = os.path.join(label_dir, video_file)
-                if video_file.endswith(('.mp4', '.avi', '.mov')):
-                    video_data = self.extract_landmarks_from_video(video_path, label)
-                    all_data.extend(video_data)
+                # Extract first 17 landmarks (torso and arms)
+                for i in range(17):
+                    lm = results.pose_landmarks.landmark[i]
+                    landmarks.extend([lm.x, lm.y])
+                video_data.append(landmarks)
         
-        df = pd.DataFrame(all_data)
-        df.to_csv(output_csv, index=False)
-        logger.success(f"Dataset saved to {output_csv}. Total samples: {len(all_data)}")
+        cap.release()
+        return {"label": label, "landmarks": video_data}
+
+    def process_directory(self, dataset_dir: str):
+        """Processes all videos in a directory structure (folder name as label)."""
+        dataset = []
+        root = Path(dataset_dir)
+        
+        for label_dir in root.iterdir():
+            if label_dir.is_dir():
+                logger.info(f"Processing class: {label_dir.name}")
+                for video_file in label_dir.glob("*.mp4"):
+                    data = self.extract_landmarks_from_video(str(video_file), label_dir.name)
+                    if len(data["landmarks"]) >= 30: # Minimum frames for LSTM
+                        dataset.append(data)
+                        
+        with open(self.output_path, "w") as f:
+            json.dump(dataset, f)
+        logger.info(f"Dataset preparation complete. Saved to {self.output_path}")
 
 if __name__ == "__main__":
-    # Example usage for Colab
-    prep = DatasetPrep(seq_length=30)
-    # prep.process_directory("data/raw_videos", "data/skeleton_dataset.csv")
+    # Example usage
+    # prep = DatasetPrep()
+    # prep.process_directory("training/datasets/RWF-2000")
+    pass
