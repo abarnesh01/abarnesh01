@@ -1,69 +1,90 @@
 import cv2
 import numpy as np
 from loguru import logger
+from typing import Tuple, Optional
 
 class OpticalFlowAnalyzer:
-    """
-    Analyzes global and local motion patterns using Dense Optical Flow (Farneback).
-    Useful for detecting crowd panic, sudden high-velocity movements, and directional flow.
-    """
-    def __init__(self, scale: float = 0.5):
-        self.prev_gray = None
-        self.scale = scale # Resize frame for faster processing
+    """Real-time motion intelligence using Lucas-Kanade optical flow and divergence analysis."""
 
-    def compute_flow(self, frame: np.ndarray):
+    def __init__(self, max_corners: int = 100, min_distance: int = 7, block_size: int = 7):
+        # Parameters for Shi-Tomasi corner detection
+        self.feature_params = dict(
+            maxCorners=max_corners,
+            qualityLevel=0.3,
+            minDistance=min_distance,
+            blockSize=block_size
+        )
+
+        # Parameters for Lucas-Kanade optical flow
+        self.lk_params = dict(
+            winSize=(15, 15),
+            maxLevel=2,
+            criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03)
+        )
+
+        self.prev_gray: Optional[cv2.Mat] = None
+        self.prev_points: Optional[np.ndarray] = None
+        logger.info("Optical Flow Analyzer initialized.")
+
+    def analyze(self, frame: cv2.Mat) -> dict:
         """
-        Computes optical flow between current and previous frame.
-        Returns (magnitude, angle) of the flow field.
+        Calculates motion vectors and detects sudden movement spikes or divergence.
         """
-        # Resize for speed
-        small_frame = cv2.resize(frame, (0, 0), fx=self.scale, fy=self.scale)
-        gray = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         
+        motion_data = {
+            "avg_magnitude": 0.0,
+            "max_magnitude": 0.0,
+            "spike_detected": False,
+            "divergence": 0.0
+        }
+
         if self.prev_gray is None:
             self.prev_gray = gray
-            return None, None
+            self.prev_points = cv2.goodFeaturesToTrack(gray, mask=None, **self.feature_params)
+            return motion_data
 
-        # Calculate Farneback optical flow
-        flow = cv2.calcOpticalFlowFarneback(
-            self.prev_gray, gray, None, 
-            0.5, 3, 15, 3, 5, 1.2, 0
-        )
-        
-        mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        
+        if self.prev_points is not None:
+            # Calculate optical flow
+            next_points, status, error = cv2.calcOpticalFlowPyrLK(
+                self.prev_gray, gray, self.prev_points, None, **self.lk_params
+            )
+
+            if next_points is not None:
+                # Select good points
+                good_new = next_points[status == 1]
+                good_old = self.prev_points[status == 1]
+
+                if len(good_new) > 0:
+                    # Calculate magnitude of vectors
+                    vectors = good_new - good_old
+                    magnitudes = np.sqrt(np.sum(vectors**2, axis=1))
+                    
+                    motion_data["avg_magnitude"] = float(np.mean(magnitudes))
+                    motion_data["max_magnitude"] = float(np.max(magnitudes))
+                    
+                    # Spike detection (e.g., sudden dash or hit)
+                    if motion_data["max_magnitude"] > 25:
+                        motion_data["spike_detected"] = True
+
+                    # Divergence calculation (crowd panic indicator)
+                    # Simplified: Variance in vector directions
+                    angles = np.arctan2(vectors[:, 1], vectors[:, 0])
+                    motion_data["divergence"] = float(np.var(angles))
+
+                self.prev_points = good_new.reshape(-1, 1, 2)
+            else:
+                self.prev_points = cv2.goodFeaturesToTrack(gray, mask=None, **self.feature_params)
+        else:
+            self.prev_points = cv2.goodFeaturesToTrack(gray, mask=None, **self.feature_params)
+
         self.prev_gray = gray
-        return mag, ang
+        return motion_data
 
-    def analyze_panic(self, mag: np.ndarray) -> float:
-        """
-        Calculates a panic score based on sudden increase in motion magnitude.
-        """
-        if mag is None: return 0.0
-        
-        # Mean magnitude of all motion
-        avg_motion = np.mean(mag)
-        # Peak motion (top 5% percentile)
-        peak_motion = np.percentile(mag, 95)
-        
-        # Score is a combination of average and peak intensity
-        # Normalize to 0-1 range (heuristic)
-        score = min(1.0, (avg_motion * 0.3 + peak_motion * 0.7) / 20.0)
-        return float(score)
-
-    def draw_flow(self, frame: np.ndarray, mag: np.ndarray, ang: np.ndarray):
-        """Visualizes flow direction and magnitude using HSV."""
-        if mag is None: return frame
-        
-        h, w = frame.shape[:2]
-        hsv = np.zeros((mag.shape[0], mag.shape[1], 3), dtype=np.uint8)
-        hsv[..., 0] = ang * 180 / np.pi / 2
-        hsv[..., 1] = 255
-        hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
-        
-        bgr_flow = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-        bgr_flow = cv2.resize(bgr_flow, (w, h))
-        
-        # Overlay with original frame
-        combined = cv2.addWeighted(frame, 0.7, bgr_flow, 0.3, 0)
-        return combined
+    def draw_flow(self, frame: cv2.Mat, motion_data: dict):
+        """Visualizes motion vectors (simplified indicator)."""
+        if motion_data["avg_magnitude"] > 0:
+            color = (0, 0, 255) if motion_data["spike_detected"] else (0, 255, 255)
+            cv2.putText(frame, f"Motion: {motion_data['avg_magnitude']:.2f}", (10, 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
+        return frame

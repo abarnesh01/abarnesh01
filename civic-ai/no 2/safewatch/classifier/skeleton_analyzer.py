@@ -1,95 +1,80 @@
 import numpy as np
-from typing import List, Dict, Any, Tuple
-import math
+from typing import List, Dict, Any, Optional
+from loguru import logger
 
 class SkeletonAnalyzer:
-    """
-    Extracts geometric features from skeletal landmarks.
-    Computes angles, distances, and posture orientation.
-    """
-    
-    # MediaPipe Pose landmark indices
-    L_WRIST = 15; R_WRIST = 16
-    L_ELBOW = 13; R_ELBOW = 14
-    L_SHOULDER = 11; R_SHOULDER = 12
-    L_HIP = 23; R_HIP = 24
-    L_KNEE = 25; R_KNEE = 26
-    L_ANKLE = 27; R_ANKLE = 28
-    
-    @staticmethod
-    def calculate_angle(a: Tuple[float, float], b: Tuple[float, float], c: Tuple[float, float]) -> float:
-        """Calculates angle between three points (b is vertex)."""
-        a = np.array(a)
-        b = np.array(b)
-        c = np.array(c)
-        
-        radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
-        angle = np.abs(radians*180.0/np.pi)
-        
-        if angle > 180.0:
-            angle = 360 - angle
-        return angle
+    """Analyzes MediaPipe skeleton landmarks for postural features."""
 
-    @staticmethod
-    def get_posture_score(landmarks: List[Dict[str, Any]]) -> Dict[str, float]:
-        """
-        Analyzes posture based on landmark relationships.
-        Returns score for: 'horizontal', 'arms_raised', 'crouched'
-        """
-        if not landmarks: return {}
-
-        # 1. Orientation (Hip to Head alignment)
-        nose = landmarks[0]
-        mid_hip_x = (landmarks[23]['x'] + landmarks[24]['x']) / 2
-        mid_hip_y = (landmarks[23]['y'] + landmarks[24]['y']) / 2
-        
-        dx = abs(nose['x'] - mid_hip_x)
-        dy = abs(nose['y'] - mid_hip_y)
-        
-        # Horizontal if dy < dx (roughly)
-        horizontal_score = min(1.0, dx / (dy + 1e-6))
-        
-        # 2. Arms raised
-        l_wrist_y = landmarks[15]['y']
-        r_wrist_y = landmarks[16]['y']
-        shoulder_y = (landmarks[11]['y'] + landmarks[12]['y']) / 2
-        
-        arms_raised = 0.0
-        if l_wrist_y < shoulder_y: arms_raised += 0.5
-        if r_wrist_y < shoulder_y: arms_raised += 0.5
-        
-        # 3. Crouched (Hip to Ankle height vs Shoulder height)
-        mid_ankle_y = (landmarks[27]['y'] + landmarks[28]['y']) / 2
-        body_height = mid_ankle_y - shoulder_y
-        hip_height = mid_ankle_y - mid_hip_y
-        
-        crouch_score = 1.0 - (hip_height / (body_height + 1e-6))
-        
-        return {
-            "horizontal": horizontal_score,
-            "arms_raised": arms_raised,
-            "crouched": max(0.0, crouch_score)
+    def __init__(self):
+        # Indices for key joints in MediaPipe Pose
+        self.joints = {
+            "nose": 0, "l_shoulder": 11, "r_shoulder": 12,
+            "l_elbow": 13, "r_elbow": 14, "l_wrist": 15, "r_wrist": 16,
+            "l_hip": 23, "r_hip": 24, "l_knee": 25, "r_knee": 26,
+            "l_ankle": 27, "r_ankle": 28
         }
 
-    @staticmethod
-    def get_joint_velocities(current_landmarks: List[Dict], prev_landmarks: List[Dict], dt: float) -> Dict[str, float]:
-        """Calculates instantaneous velocity of key joints."""
-        if not current_landmarks or not prev_landmarks:
+    def extract_features(self, landmarks: List[Dict]) -> Dict[str, Any]:
+        """Extracts high-level postural features like torso angle, arm extension, etc."""
+        if not landmarks:
             return {}
+
+        try:
+            # Torso inclination (average of shoulders to average of hips)
+            l_sh = np.array([landmarks[11]['x'], landmarks[11]['y']])
+            r_sh = np.array([landmarks[12]['x'], landmarks[12]['y']])
+            l_hip = np.array([landmarks[23]['x'], landmarks[23]['y']])
+            r_hip = np.array([landmarks[24]['x'], landmarks[24]['y']])
             
-        velocities = {}
-        key_indices = [15, 16, 0, 23, 24] # Wrists, Nose, Hips
-        names = ["l_wrist", "r_wrist", "nose", "l_hip", "r_hip"]
-        
-        for idx, name in zip(key_indices, names):
-            p1 = np.array([current_landmarks[idx]['x'], current_landmarks[idx]['y']])
-            p2 = np.array([prev_landmarks[idx]['x'], prev_landmarks[idx]['y']])
-            dist = np.linalg.norm(p1 - p2)
-            velocities[name] = dist / dt if dt > 0 else 0
+            mid_shoulder = (l_sh + r_sh) / 2
+            mid_hip = (l_hip + r_hip) / 2
             
-        return velocities
+            # Vertical reference
+            torso_vec = mid_shoulder - mid_hip
+            vertical_vec = np.array([0, -1])
+            
+            # Torso angle relative to vertical (0 = standing straight, 90 = horizontal)
+            cos_theta = np.dot(torso_vec, vertical_vec) / (np.linalg.norm(torso_vec) * np.linalg.norm(vertical_vec) + 1e-6)
+            torso_angle = np.degrees(np.arccos(np.clip(cos_theta, -1.0, 1.0)))
+
+            # Arm raised height (relative to shoulders)
+            l_wrist_y = landmarks[15]['y']
+            r_wrist_y = landmarks[16]['y']
+            shoulder_y = mid_shoulder[1]
+            
+            l_arm_raised = shoulder_y - l_wrist_y > 0.1 # Threshold for raised arm
+            r_arm_raised = shoulder_y - r_wrist_y > 0.1
+
+            # Proximity of wrists (clashing/fighting indicator)
+            wrist_dist = np.linalg.norm(np.array([landmarks[15]['x'], landmarks[15]['y']]) - 
+                                        np.array([landmarks[16]['x'], landmarks[16]['y']]))
+
+            return {
+                "torso_angle": float(torso_angle),
+                "l_arm_raised": bool(l_arm_raised),
+                "r_arm_raised": bool(r_arm_raised),
+                "wrist_dist": float(wrist_dist),
+                "is_horizontal": torso_angle > 60.0,
+                "hip_height": float(mid_hip[1])
+            }
+        except Exception as e:
+            logger.error(f"Feature extraction failed: {e}")
+            return {}
+
+    def is_falling(self, history: List[Dict[str, Any]]) -> bool:
+        """Analyzes a short history of skeleton features to detect a fall."""
+        if len(history) < 5:
+            return False
+            
+        # Fall characteristic: Rapid decrease in hip height followed by horizontal orientation
+        start_hip = history[0].get("hip_height", 0)
+        end_hip = history[-1].get("hip_height", 0)
         
-    @staticmethod
-    def is_aggressive_posture(posture: Dict[str, float]) -> bool:
-        """Heuristic for aggressive behavior based on posture."""
-        return posture.get('arms_raised', 0) > 0.7 or posture.get('crouched', 0) > 0.8
+        # In normalized coordinates, Y increases downwards. 
+        # So a fall means hip_height increases significantly in a short time.
+        hip_drop = end_hip - start_hip
+        is_horizontal = history[-1].get("is_horizontal", False)
+        
+        if hip_drop > 0.15 and is_horizontal:
+            return True
+        return False
