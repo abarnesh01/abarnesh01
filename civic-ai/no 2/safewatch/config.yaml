@@ -1,80 +1,63 @@
-# SafeWatch Global Configuration
+# SafeWatch Enterprise Configuration
 
 system:
-  project_name: "SafeWatch"
+  name: "SafeWatch AI"
   version: "1.0.0"
-  log_directory: "logs"
-  recordings_directory: "recordings"
-  device: "cpu"  # Force CPU as per requirements
+  log_dir: "logs"
+  recordings_dir: "recordings"
+  snapshots_dir: "recordings/snapshots"
+  device: "cpu"  # cpu or cuda
+  debug: false
 
 cameras:
-  - id: 0
-    name: "Front Entrance"
-    source: 0
-    enabled: true
+  - id: "CAM01"
+    name: "Main Entrance"
+    source: 0  # 0 for webcam or "rtsp://..."
     fps_limit: 15
-    resolution: [1280, 720]
-    reconnect_interval: 5
-  
-inference:
-  yolo_model: "yolov8n.pt"
-  conf_threshold: 0.25
-  iou_threshold: 0.45
-  person_only: true
-  person_class_id: 0
-  enable_pose: true
-  enable_optical_flow: true
+    enabled: true
+  - id: "CAM02"
+    name: "Parking Lot"
+    source: "rtsp://admin:password@192.168.1.100:554/stream1"
+    fps_limit: 10
+    enabled: false
 
-threats:
-  cooldown_seconds: 30
-  min_confidence: 0.6
-  risk_levels:
-    SAFE: 0
-    LOW: 1
-    MEDIUM: 2
-    HIGH: 3
-    CRITICAL: 4
-  
-  detectors:
-    fight:
-      enabled: true
-      threshold: 0.75
-    fall:
-      enabled: true
-      threshold: 0.7
-    harassment:
-      enabled: true
-      threshold: 0.65
-    assault:
-      enabled: true
-      threshold: 0.8
-    unconscious:
-      enabled: true
-      threshold: 0.7
-    trespass:
-      enabled: true
-      threshold: 0.85
-    crowd_panic:
-      enabled: true
-      threshold: 0.6
-    accident:
-      enabled: true
-      threshold: 0.7
-    abuse:
-      enabled: true
-      threshold: 0.75
+models:
+  yolo:
+    path: "models/yolov8n.pt"
+    confidence: 0.5
+    iou_threshold: 0.45
+    classes: [0]  # Person only
+  pose:
+    static_image_mode: false
+    model_complexity: 1
+    min_detection_confidence: 0.5
+    min_tracking_confidence: 0.5
+  classifier:
+    path: "models/action_classifier.onnx"
+    input_size: [30, 34]  # 30 frames, 17 landmarks * 2 (x,y)
 
-database:
-  path: "database/safewatch.db"
-  backup_interval_days: 7
+thresholds:
+  fight: 0.75
+  fall: 0.80
+  harassment: 0.65
+  assault: 0.85
+  unconscious: 0.90
+  trespass: 0.70
+  crowd_panic: 0.60
+  accident: 0.70
+  abuse: 0.80
 
 alerts:
+  cooldown: 60  # seconds
   telegram_enabled: true
   snapshot_enabled: true
-  max_retries: 3
-  retry_delay: 5
+  severity_colors:
+    SAFE: [0, 255, 0]
+    LOW: [255, 255, 0]
+    MEDIUM: [255, 165, 0]
+    HIGH: [0, 0, 255]
+    CRITICAL: [128, 0, 128]
 
-dashboard:
-  theme: "dark"
-  refresh_rate: 1.0
-  max_history_items: 100
+database:
+  path: "data/safewatch.db"
+  backup_interval: 86400  # daily
