@@ -4,18 +4,25 @@ setup(
     name="safewatch",
     version="1.0.0",
     description="Enterprise AI CCTV Threat Detection System",
-    author="SafeWatch Team",
+    author="SafeWatch AI",
     packages=find_packages(),
     install_requires=[
+        "opencv-python",
         "ultralytics",
         "mediapipe",
-        "opencv-contrib-python",
-        "loguru",
+        "onnxruntime",
+        "numpy",
+        "scipy",
         "pyyaml",
-        "python-dotenv",
-        "streamlit",
         "python-telegram-bot",
-        "onnxruntime"
+        "streamlit",
+        "imutils",
+        "Pillow",
+        "schedule",
+        "loguru",
+        "torch",
+        "torchvision",
+        "python-dotenv"
     ],
     entry_points={
         "console_scripts": [
