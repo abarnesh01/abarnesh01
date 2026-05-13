@@ -1,97 +1,81 @@
-# SafeWatch 🛡️ — AI-Powered CCTV Threat Detection System
+# SafeWatch — AI-Powered CCTV Threat Detection System
 
-SafeWatch is a production-ready, modular AI surveillance system designed to detect physical threats, accidents, and unauthorized access in real-time. It leverages state-of-the-art computer vision (YOLOv8, MediaPipe) and behavioral analysis to provide instant alerts via Telegram and a live dashboard.
+SafeWatch is an enterprise-grade AI-powered surveillance ecosystem designed for real-time threat detection and behavioral intelligence. It leverages state-of-the-art computer vision models (YOLOv8, MediaPipe) and temporal analytics to identify security incidents autonomously.
 
-## 🚀 Key Features
+## 🚀 Features
 
-- **Real-time Detection**: Person tracking, pose estimation, and optical flow analysis.
-- **Threat Engine**: Detects fights, falls, harassment, assault, unconsciousness, trespass, and crowd panic.
-- **Alert System**: Immediate Telegram notifications with annotated snapshots.
-- **Live Dashboard**: Streamlit-based UI for live monitoring, incident history, and camera management.
-- **Modular Architecture**: Easy to extend with custom detectors and models.
-- **Robust Database**: SQLite-based logging with WAL mode for high concurrency.
+- **Real-Time Threat Detection**:
+  - Fight & Assault detection (Aggressive proximity & limb velocity)
+  - Fall detection (Horizontal posture & impact analysis)
+  - Harassment detection (Sustained proximity tracking)
+  - Unconscious person detection (Prolonged stillness)
+  - Crowd Panic & Accident detection (Optical flow & group dynamics)
+  - Trespassing (Custom zone monitoring)
+- **Multi-Camera Support**: Optimized RTSP and USB webcam handling.
+- **Enterprise Alerting**: Automated Telegram notifications with branded snapshots.
+- **SOC Dashboard**: Dark-themed Streamlit monitoring and analytics platform.
+- **CPU Optimized**: Designed for high-performance inference on standard hardware.
 
 ## 🛠️ Tech Stack
 
-- **Core**: Python 3.10+, OpenCV
-- **AI/ML**: YOLOv8 (Ultralytics), MediaPipe, ONNX Runtime
-- **Database**: SQLite (SQLAlchemy-ready logic)
-- **UI**: Streamlit
-- **Alerting**: Python-Telegram-Bot
+- **Inference**: YOLOv8, MediaPipe, ONNX Runtime
+- **Logic**: Python 3.10+, OpenCV, NumPy, SciPy
+- **Storage**: SQLite3
+- **Monitoring**: Streamlit, Plotly
+- **Alerts**: python-telegram-bot (Async)
 - **Logging**: Loguru
 
-## 📂 Project Structure
+## 📦 Installation
 
-```
-safewatch/
-├── main.py              # System entry point
-├── config.yaml          # Central configuration
-├── requirements.txt     # Python dependencies
-├── capture/             # Camera stream management
-├── detection/           # YOLO & Pose detection
-├── classifier/          # Behavioral feature extraction
-├── threats/             # Specific threat detectors
-├── alerts/              # Telegram & Snapshot logic
-├── database/            # Incident logging & DB manager
-├── dashboard/           # Streamlit UI
-├── training/            # Model training scripts
-├── models/              # Pre-trained models
-└── tests/               # Unit & Integration tests
-```
+1. **Clone the repository**:
+   ```bash
+   git clone <repo_url>
+   cd safewatch
+   ```
 
-## 🔧 Installation
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1.  **Clone the Repository**:
-    ```bash
-    git clone https://github.com/your-repo/safewatch.git
-    cd safewatch
-    ```
+3. **Configure Environment**:
+   - Rename `.env.example` to `.env`
+   - Add your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
 
-2.  **Install Dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Configure Environment**:
-    Copy `.env.example` to `.env` and add your Telegram credentials:
-    ```bash
-    cp .env.example .env
-    ```
-
-4.  **Configure Cameras**:
-    Edit `config.yaml` to add your RTSP or USB camera sources.
+4. **Initialize Model**:
+   - SafeWatch will automatically download `yolov8n.pt` on first run.
 
 ## 🚦 Usage
 
-### Start the System
+### Start the Surveillance Core:
 ```bash
 python main.py
 ```
 
-### Run Only Dashboard
+### Launch the SOC Dashboard:
 ```bash
-python main.py --dashboard-only
+streamlit run dashboard/app.py
 ```
 
-### Test Camera Connections
-```bash
-python main.py --test-cameras
+## 🏗️ Project Structure
+
+```text
+safewatch/
+├── capture/        # Video capture & stream management
+├── detection/      # AI models & low-level vision
+├── threats/        # Behavioral intelligence & threat logic
+├── classifier/     # Temporal action classification
+├── alerts/         # Notification & snapshot systems
+├── database/       # Incident logging & analytics
+├── dashboard/      # Streamlit monitor
+└── training/       # Google Colab training pipeline
 ```
 
-### Test Telegram Bot
-```bash
-python main.py --test-telegram
-```
+## 🛡️ Engineering Standards
 
-## 🧠 Model Training
-
-SafeWatch includes a custom Action Classifier. To train or improve the model:
-1. See instructions in `training/README_COLAB.md`.
-2. Use the provided scripts to extract pose sequences and train an LSTM classifier.
-3. Export to ONNX and place in `models/`.
-
-## 🛡️ License
-Proprietary / Enterprise Surveillance License.
+- **Thread-Safe Architecture**: Non-blocking frame capture and async alerting.
+- **Graceful Recovery**: Automatic stream reconnection and error handling.
+- **Modular Design**: Easy to extend with custom detectors or models.
 
 ---
-*Built with ❤️ for a safer world.*
+**SafeWatch** | Built for Enterprise Security Operations.

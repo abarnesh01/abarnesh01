@@ -3,23 +3,19 @@ from setuptools import setup, find_packages
 setup(
     name="safewatch",
     version="1.0.0",
+    description="Enterprise AI CCTV Threat Detection System",
     author="SafeWatch Team",
-    description="AI-Powered CCTV Threat Detection System",
     packages=find_packages(),
     install_requires=[
-        "numpy",
-        "opencv-python",
         "ultralytics",
         "mediapipe",
-        "onnxruntime",
+        "opencv-contrib-python",
+        "loguru",
         "pyyaml",
         "python-dotenv",
-        "loguru",
         "streamlit",
-        "pandas",
-        "pillow",
         "python-telegram-bot",
-        "scipy",
+        "onnxruntime"
     ],
     entry_points={
         "console_scripts": [
