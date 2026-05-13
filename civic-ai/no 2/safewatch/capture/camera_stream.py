@@ -1,39 +1,38 @@
 import cv2
 import threading
 import time
-from loguru import logger
-from typing import Optional, Tuple
 from queue import Queue
+from typing import Optional, Union
+from loguru import logger
 
 class CameraStream:
-    """
-    High-performance camera stream handler using threading for non-blocking frame capture.
-    Supports RTSP, USB webcams, and reconnection logic.
-    """
-    def __init__(self, camera_id: int, name: str, source: str, fps_limit: int = 30):
+    """Threaded camera stream handler for RTSP and USB webcams."""
+
+    def __init__(self, camera_id: str, source: Union[int, str], fps_limit: int = 30):
         self.camera_id = camera_id
-        self.name = name
-        self.source = source if not str(source).isdigit() else int(source)
+        self.source = source
         self.fps_limit = fps_limit
+        self.frame_delay = 1.0 / fps_limit
         
-        self.cap = None
+        self.cap: Optional[cv2.VideoCapture] = None
         self.frame_queue = Queue(maxsize=5)
         self.stopped = False
-        self.connected = False
-        self.fps = 0
-        self.last_reconnect_time = 0
+        self.thread: Optional[threading.Thread] = None
         
-        # Performance monitoring
+        self.is_connected = False
+        self.last_reconnect_time = 0
+        self.reconnect_interval = 5.0
+        
+        self.fps = 0.0
         self.frame_count = 0
         self.start_time = time.time()
-        
-        self.thread = threading.Thread(target=self._update, name=f"CameraStream-{name}", daemon=True)
 
     def start(self):
         """Starts the capture thread."""
-        logger.info(f"Starting stream: {self.name} ({self.source})")
         self.stopped = False
+        self.thread = threading.Thread(target=self._capture_loop, name=f"Stream-{self.camera_id}", daemon=True)
         self.thread.start()
+        logger.info(f"Started camera stream: {self.camera_id}")
         return self
 
     def _connect(self):
@@ -41,65 +40,56 @@ class CameraStream:
         if self.cap is not None:
             self.cap.release()
             
-        logger.debug(f"Connecting to {self.name}...")
+        logger.info(f"Connecting to source: {self.source}")
         self.cap = cv2.VideoCapture(self.source)
         
-        # Buffer optimization
-        if isinstance(self.source, str) and "rtsp" in self.source.lower():
-            # For RTSP, we want minimal latency
-            self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-            
-        self.connected = self.cap.isOpened()
-        if not self.connected:
-            logger.error(f"Failed to open source: {self.source}")
+        if self.cap.isOpened():
+            self.is_connected = True
+            logger.info(f"Successfully connected to {self.camera_id}")
         else:
-            logger.success(f"Connected to {self.name}")
+            self.is_connected = False
+            logger.error(f"Failed to connect to {self.camera_id}")
 
-    def _update(self):
-        """Main capture loop."""
+    def _capture_loop(self):
+        """Internal loop for continuous frame capture."""
+        self._connect()
+        
         while not self.stopped:
-            if not self.connected:
-                # Reconnection logic with cooldown
-                if time.time() - self.last_reconnect_time > 5:
+            if not self.is_connected:
+                current_time = time.time()
+                if current_time - self.last_reconnect_time > self.reconnect_interval:
+                    self.last_reconnect_time = current_time
                     self._connect()
-                    self.last_reconnect_time = time.time()
-                else:
-                    time.sleep(1)
-                    continue
-
-            ret, frame = self.cap.read()
-            
-            if not ret:
-                logger.warning(f"Failed to read frame from {self.name}. Reconnecting...")
-                self.connected = False
+                time.sleep(1)
                 continue
 
-            # Maintain frame rate limit
-            current_time = time.time()
-            elapsed = current_time - self.start_time
-            if elapsed > 1.0:
-                self.fps = self.frame_count / elapsed
-                self.frame_count = 0
-                self.start_time = current_time
+            ret, frame = self.cap.read()
+            if not ret:
+                logger.warning(f"Failed to read frame from {self.camera_id}. Attempting reconnect...")
+                self.is_connected = False
+                continue
 
-            # Manage queue (drop old frames to keep live)
-            if not self.frame_queue.full():
-                self.frame_queue.put(frame)
-            else:
+            # Update FPS metrics
+            self.frame_count += 1
+            if time.time() - self.start_time >= 1.0:
+                self.fps = self.frame_count / (time.time() - self.start_time)
+                self.frame_count = 0
+                self.start_time = time.time()
+
+            # Maintain queue size by dropping old frames
+            if self.frame_queue.full():
                 try:
                     self.frame_queue.get_nowait()
-                    self.frame_queue.put(frame)
                 except:
                     pass
             
-            self.frame_count += 1
+            self.frame_queue.put(frame)
             
-            # FPS Throttling
-            if self.fps_limit > 0:
-                time.sleep(1.0 / self.fps_limit)
+            # FPS Limiter
+            time.sleep(self.frame_delay)
 
     def read(self) -> Optional[cv2.Mat]:
-        """Returns the most recent frame from the queue."""
+        """Returns the latest frame from the queue."""
         if self.frame_queue.empty():
             return None
         return self.frame_queue.get()
@@ -107,13 +97,16 @@ class CameraStream:
     def stop(self):
         """Stops the capture thread and releases resources."""
         self.stopped = True
-        if self.thread.is_alive():
+        if self.thread:
             self.thread.join(timeout=2)
-        
         if self.cap:
             self.cap.release()
-        self.connected = False
-        logger.info(f"Stream {self.name} stopped.")
+        logger.info(f"Stopped camera stream: {self.camera_id}")
 
-    def is_running(self) -> bool:
-        return self.connected and not self.stopped
+    def get_status(self):
+        return {
+            "id": self.camera_id,
+            "connected": self.is_connected,
+            "fps": round(self.fps, 2),
+            "queue_size": self.frame_queue.qsize()
+        }
