@@ -1,19 +1,10 @@
-"""SafeWatch Threats Package."""
-
-from threats.fight_detector import FightDetector
-from threats.fall_detector import FallDetector
-from threats.harassment_detector import HarassmentDetector
-from threats.assault_detector import AssaultDetector
-from threats.unconscious_detector import UnconsciousDetector
-from threats.trespass_detector import TrespassDetector
-from threats.crowd_panic_detector import CrowdPanicDetector
-from threats.accident_detector import AccidentDetector
-from threats.abuse_detector import AbuseDetector
-from threats.threat_engine import ThreatEngine
-
-__all__ = [
-    "FightDetector", "FallDetector", "HarassmentDetector",
-    "AssaultDetector", "UnconsciousDetector", "TrespassDetector",
-    "CrowdPanicDetector", "AccidentDetector", "AbuseDetector",
-    "ThreatEngine",
-]
+from .threat_engine import ThreatEngine, ThreatEvent
+from .fight_detector import FightDetector
+from .fall_detector import FallDetector
+from .harassment_detector import HarassmentDetector
+from .assault_detector import AssaultDetector
+from .unconscious_detector import UnconsciousDetector
+from .trespass_detector import TrespassDetector
+from .crowd_panic_detector import CrowdPanicDetector
+from .accident_detector import AccidentDetector
+from .abuse_detector import AbuseDetector
