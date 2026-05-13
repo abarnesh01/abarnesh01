@@ -1,7 +1,3 @@
-"""SafeWatch Alerts Package."""
-
-from alerts.snapshot_builder import SnapshotBuilder
-from alerts.telegram_bot import SafeWatchTelegramBot
-from alerts.alert_manager import AlertManager
-
-__all__ = ["SnapshotBuilder", "SafeWatchTelegramBot", "AlertManager"]
+from .alert_manager import AlertManager
+from .telegram_bot import TelegramAlertBot
+from .snapshot_builder import SnapshotBuilder
