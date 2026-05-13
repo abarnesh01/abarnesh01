@@ -1,6 +1,2 @@
-"""SafeWatch Database Package."""
-
-from database.db_manager import DatabaseManager
-from database.incident_logger import IncidentLogger
-
-__all__ = ["DatabaseManager", "IncidentLogger"]
+from .db_manager import DatabaseManager
+from .incident_logger import IncidentLogger
