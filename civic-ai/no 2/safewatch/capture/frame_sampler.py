@@ -1,115 +1,59 @@
-"""
-SafeWatch — Frame Sampler
-Smart frame sampling with motion-based adaptive skip and background subtraction.
-"""
-
-import time
-from typing import Any, Generator, Optional
-
 import cv2
-import numpy as np
+import time
 from loguru import logger
 
-from capture.camera_stream import CameraStream
-
-
 class FrameSampler:
-    """Samples frames from a CameraStream with smart skip and motion detection."""
+    """
+    Optimizes processing load by intelligently sampling frames.
+    Implements motion-aware skipping and fixed interval sampling.
+    """
+    def __init__(self, sampling_rate: int = 2, motion_threshold: float = 0.01):
+        self.sampling_rate = sampling_rate  # Process every Nth frame
+        self.motion_threshold = motion_threshold
+        self.frame_counter = 0
+        self.prev_frame_gray = None
+        self.last_process_time = 0
 
-    def __init__(
-        self,
-        camera_stream: CameraStream,
-        frame_skip: int = 5,
-        resolution: tuple[int, int] = (640, 480),
-        motion_threshold: float = 5000.0,
-    ) -> None:
-        self._stream = camera_stream
-        self._frame_skip = frame_skip
-        self._resolution = resolution
-        self._motion_threshold = motion_threshold
-        self._frame_number = 0
-        self._bg_subtractor = cv2.createBackgroundSubtractorMOG2(
-            history=500,
-            varThreshold=50,
-            detectShadows=False,
-        )
-        self._last_motion_score = 0.0
-        logger.info(
-            f"FrameSampler created for {camera_stream.camera_id}, "
-            f"skip={frame_skip}, motion_threshold={motion_threshold}"
-        )
+    def should_process(self, frame) -> bool:
+        """
+        Determines if the current frame should undergo heavy AI processing.
+        """
+        self.frame_counter += 1
+        
+        # 1. Fixed interval sampling
+        if self.frame_counter % self.sampling_rate != 0:
+            return False
 
-    def __repr__(self) -> str:
-        return (
-            f"FrameSampler(camera={self._stream.camera_id}, "
-            f"skip={self._frame_skip}, frame={self._frame_number})"
-        )
+        # 2. Motion-aware sampling (Optional optimization)
+        # If no motion is detected, we can skip expensive person detection
+        if self.motion_threshold > 0:
+            has_motion = self._detect_motion(frame)
+            if not has_motion:
+                return False
+        
+        return True
 
-    def _detect_motion(self, frame: np.ndarray) -> tuple[bool, float]:
-        """Detect motion using background subtraction."""
-        small = cv2.resize(frame, (320, 240))
-        fg_mask = self._bg_subtractor.apply(small)
-        _, thresh = cv2.threshold(fg_mask, 200, 255, cv2.THRESH_BINARY)
-        motion_score = float(np.sum(thresh) / 255.0)
-        self._last_motion_score = motion_score
-        has_motion = motion_score > self._motion_threshold
-        return has_motion, motion_score
+    def _detect_motion(self, frame) -> bool:
+        """
+        Simple motion detection using frame differencing.
+        """
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
-    def get_frame(self) -> Generator[dict[str, Any], None, None]:
-        """Generator that yields frame data dicts with smart sampling."""
-        while self._stream.is_running():
-            frame = self._stream.read()
-            if frame is None:
-                time.sleep(0.01)
-                continue
+        if self.prev_frame_gray is None:
+            self.prev_frame_gray = gray
+            return True
 
-            self._frame_number += 1
-            has_motion, motion_score = self._detect_motion(frame)
+        frame_delta = cv2.absdiff(self.prev_frame_gray, gray)
+        thresh = cv2.threshold(frame_delta, 25, 255, cv2.THRESH_BINARY)[1]
+        
+        # Calculate motion percentage
+        motion_score = (cv2.countNonZero(thresh) / (frame.shape[0] * frame.shape[1]))
+        
+        self.prev_frame_gray = gray
+        
+        return motion_score > self.motion_threshold
 
-            should_process = (self._frame_number % self._frame_skip == 0) or has_motion
-
-            if should_process:
-                frame = cv2.resize(frame, self._resolution)
-                frame_data: dict[str, Any] = {
-                    "frame": frame,
-                    "camera_id": self._stream.camera_id,
-                    "timestamp": time.time(),
-                    "frame_number": self._frame_number,
-                    "has_motion": has_motion,
-                    "motion_score": motion_score,
-                }
-                yield frame_data
-            else:
-                time.sleep(0.001)
-
-    def get_single_frame(self) -> Optional[dict[str, Any]]:
-        """Get a single frame (non-generator), useful for dashboard snapshots."""
-        frame = self._stream.read()
-        if frame is None:
-            return None
-
-        self._frame_number += 1
-        has_motion, motion_score = self._detect_motion(frame)
-        frame = cv2.resize(frame, self._resolution)
-
-        return {
-            "frame": frame,
-            "camera_id": self._stream.camera_id,
-            "timestamp": time.time(),
-            "frame_number": self._frame_number,
-            "has_motion": has_motion,
-            "motion_score": motion_score,
-        }
-
-    def update_skip_rate(self, n: int) -> None:
-        """Dynamically adjust the frame skip rate."""
-        self._frame_skip = max(1, n)
-        logger.info(f"[{self._stream.camera_id}] Frame skip updated to {self._frame_skip}")
-
-    @property
-    def frame_number(self) -> int:
-        return self._frame_number
-
-    @property
-    def last_motion_score(self) -> float:
-        return self._last_motion_score
+    def reset(self):
+        self.frame_counter = 0
+        self.prev_frame_gray = None
