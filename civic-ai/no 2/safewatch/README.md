@@ -1,81 +1,61 @@
 # SafeWatch — AI-Powered CCTV Threat Detection System
 
-SafeWatch is an enterprise-grade AI-powered surveillance ecosystem designed for real-time threat detection and behavioral intelligence. It leverages state-of-the-art computer vision models (YOLOv8, MediaPipe) and temporal analytics to identify security incidents autonomously.
+SafeWatch is an enterprise-grade surveillance intelligence platform designed for real-time threat detection and behavioral analysis. It leverages state-of-the-art computer vision models (YOLOv8, MediaPipe) and custom LSTM action classifiers to identify security incidents automatically.
 
-## 🚀 Features
+## Core Features
 
-- **Real-Time Threat Detection**:
-  - Fight & Assault detection (Aggressive proximity & limb velocity)
-  - Fall detection (Horizontal posture & impact analysis)
-  - Harassment detection (Sustained proximity tracking)
-  - Unconscious person detection (Prolonged stillness)
-  - Crowd Panic & Accident detection (Optical flow & group dynamics)
-  - Trespassing (Custom zone monitoring)
-- **Multi-Camera Support**: Optimized RTSP and USB webcam handling.
-- **Enterprise Alerting**: Automated Telegram notifications with branded snapshots.
-- **SOC Dashboard**: Dark-themed Streamlit monitoring and analytics platform.
-- **CPU Optimized**: Designed for high-performance inference on standard hardware.
+- **Threat Detection**: Fight, Fall, Harassment, Assault, Unconscious Person, Crowd Panic, Accident, Trespassing, and Abuse detection.
+- **Real-Time Analytics**: Multi-threaded RTSP/USB stream processing with motion-aware sampling.
+- **Behavioral Intelligence**: Skeleton landmark analysis, velocity tracking, and optical flow divergence.
+- **Enterprise Alerting**: Automated Telegram notifications with annotated snapshots and severity levels.
+- **SOC Dashboard**: Streamlit-powered dark-themed monitor with incident history and analytics.
+- **Edge Optimized**: High-performance CPU inference via ONNX Runtime.
 
-## 🛠️ Tech Stack
+## Project Structure
 
-- **Inference**: YOLOv8, MediaPipe, ONNX Runtime
-- **Logic**: Python 3.10+, OpenCV, NumPy, SciPy
-- **Storage**: SQLite3
-- **Monitoring**: Streamlit, Plotly
-- **Alerts**: python-telegram-bot (Async)
-- **Logging**: Loguru
+```text
+safewatch/
+├── main.py              # System entry point
+├── config.yaml          # Central configuration
+├── capture/             # Multi-stream acquisition
+├── detection/           # YOLOv8 & MediaPipe engines
+├── classifier/          # LSTM Action classification
+├── threats/             # Specialized threat detectors
+├── alerts/              # Telegram & Snapshot logic
+├── database/            # SQLite incident logging
+├── dashboard/           # Streamlit SOC interface
+└── training/            # AI model training pipeline
+```
 
-## 📦 Installation
+## Setup Instructions
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repo_url>
-   cd safewatch
-   ```
-
-2. **Install dependencies**:
+1. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configure Environment**:
-   - Rename `.env.example` to `.env`
-   - Add your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`.
+2. **Configure Environment**:
+   - Copy `.env.example` to `.env`
+   - Add your `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`
 
-4. **Initialize Model**:
-   - SafeWatch will automatically download `yolov8n.pt` on first run.
+3. **Run the System**:
+   ```bash
+   python main.py
+   ```
 
-## 🚦 Usage
+4. **Launch Dashboard**:
+   ```bash
+   streamlit run dashboard/app.py
+   ```
 
-### Start the Surveillance Core:
-```bash
-python main.py
-```
+## Technology Stack
 
-### Launch the SOC Dashboard:
-```bash
-streamlit run dashboard/app.py
-```
+- **Computer Vision**: OpenCV, Ultralytics YOLOv8, MediaPipe
+- **AI Inference**: ONNX Runtime, PyTorch
+- **Backend**: SQLite, Loguru, PyYAML
+- **Frontend**: Streamlit
+- **Alerts**: python-telegram-bot
 
-## 🏗️ Project Structure
+## License
 
-```text
-safewatch/
-├── capture/        # Video capture & stream management
-├── detection/      # AI models & low-level vision
-├── threats/        # Behavioral intelligence & threat logic
-├── classifier/     # Temporal action classification
-├── alerts/         # Notification & snapshot systems
-├── database/       # Incident logging & analytics
-├── dashboard/      # Streamlit monitor
-└── training/       # Google Colab training pipeline
-```
-
-## 🛡️ Engineering Standards
-
-- **Thread-Safe Architecture**: Non-blocking frame capture and async alerting.
-- **Graceful Recovery**: Automatic stream reconnection and error handling.
-- **Modular Design**: Easy to extend with custom detectors or models.
-
----
-**SafeWatch** | Built for Enterprise Security Operations.
+Enterprise Production Build - Proprietary and Confidential.
