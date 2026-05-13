@@ -2,10 +2,16 @@ import streamlit as st
 import pandas as pd
 import cv2
 import time
+import sys
+import os
+from pathlib import Path
+
+# Add project root to sys.path
+sys.path.append(str(Path(__file__).parent.parent))
+
 from database.db_manager import db
 from database.incident_logger import IncidentLogger
 import plotly.express as px
-from pathlib import Path
 
 # Page Config
 st.set_page_config(
