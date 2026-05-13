@@ -1,1 +1,1 @@
-"""SafeWatch Dashboard Package."""
+# SafeWatch Dashboard Package
