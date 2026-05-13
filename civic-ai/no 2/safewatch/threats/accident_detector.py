@@ -1,27 +1,45 @@
 from typing import List, Dict, Any
+from loguru import logger
 
 class AccidentDetector:
-    """
-    Detects accidents characterized by sudden impacts, multiple falls, or erratic vehicle-person interactions.
-    (Simplified version focusing on multiple simultaneous falls)
-    """
+    """Detects accidents using multi-person collapse and sudden motion patterns."""
+
     def __init__(self):
         pass
 
-    def detect(self, current_threats: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        threats = []
+    def detect(self, 
+               falls: List[Dict[str, Any]], 
+               unconscious: List[Dict[str, Any]], 
+               motion_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Combines multiple threat indicators to detect a larger scale accident.
+        """
+        fall_count = len(falls)
+        unconscious_count = len(unconscious)
+        spike = motion_data.get("spike_detected", False)
+
+        confidence = 0.0
         
-        # Check if multiple falls or collisions are occurring
-        falls = [t for t in current_threats if t['type'] == "FALL"]
-        fights = [t for t in current_threats if t['type'] == "FIGHT"]
-        
-        if len(falls) >= 2 or (len(falls) >= 1 and len(fights) >= 1):
-            threats.append({
-                "type": "ACCIDENT",
-                "severity": "HIGH",
-                "confidence": 0.8,
-                "ids": [], # Multi-person
-                "description": "Multi-person accident or chaotic event detected."
-            })
+        # Multi-person fall is a strong accident indicator
+        if fall_count >= 2:
+            confidence += 0.6
+        elif fall_count == 1:
+            confidence += 0.2
+
+        if unconscious_count >= 1:
+            confidence += 0.3
             
-        return threats
+        if spike:
+            confidence += 0.2
+
+        confidence = min(confidence, 1.0)
+        
+        return {
+            "detected": confidence > 0.7,
+            "confidence": confidence,
+            "evidence": {
+                "falls": fall_count,
+                "unconscious": unconscious_count,
+                "motion_spike": spike
+            }
+        }

@@ -1,27 +1,23 @@
 from typing import List, Dict, Any
+from loguru import logger
 
 class TrespassDetector:
-    """
-    Detects persons entering prohibited zones.
-    """
+    """Detects individuals in restricted zones."""
+
     def __init__(self):
         pass
 
-    def detect(self, detections: List[Dict[str, Any]], zone_activity: Dict[int, List[str]]) -> List[Dict[str, Any]]:
-        threats = []
-        
-        for det in detections:
-            tid = det['id']
-            active_zones = zone_activity.get(tid, [])
-            
-            for zone in active_zones:
-                if "RESTRICTED" in zone.upper() or "TRESPASS" in zone.upper():
-                    threats.append({
-                        "type": "TRESPASSING",
-                        "severity": "MEDIUM",
-                        "confidence": det['confidence'],
-                        "ids": [tid],
-                        "description": f"Person ID {tid} entered restricted zone: {zone}"
-                    })
-                    
-        return threats
+    def detect(self, trespassers: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Wraps zone manager findings into a threat event.
+        """
+        if not trespassers:
+            return {"detected": False, "confidence": 0.0}
+
+        return {
+            "detected": True,
+            "confidence": 1.0,
+            "count": len(trespassers),
+            "zones": list(set([t["zone"] for t in trespassers])),
+            "ids": [t["id"] for t in trespassers]
+        }
