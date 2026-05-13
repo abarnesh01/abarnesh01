@@ -1,41 +1,48 @@
-from typing import List, Dict, Any
 import numpy as np
+from typing import List, Dict, Any
+from loguru import logger
 
 class AssaultDetector:
-    """
-    Detects targeted assault behaviors.
-    Criteria: Rapid approach followed by high intensity interaction.
-    """
-    def __init__(self):
-        pass
+    """Detects assault by identifying attacker/victim roles and impact trajectory."""
 
-    def detect(self, detections: List[Dict[str, Any]], velocities: Dict[int, float], poses: Dict[int, Any]) -> List[Dict[str, Any]]:
-        threats = []
-        # Similar logic to fight detector but focusing on asymmetry
-        # If one person has very high wrist velocity towards another
+    def __init__(self, impact_threshold: float = 25.0):
+        self.impact_threshold = impact_threshold
+
+    def detect(self, persons: List[Dict[str, Any]], motion_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Analyzes high-velocity interactions and directional movement.
+        """
+        if len(persons) < 2:
+            return {"detected": False, "confidence": 0.0}
+
+        # Find person with highest velocity (potential attacker)
+        max_velocity = 0.0
+        attacker_id = -1
         
-        for det in detections:
-            tid = det['id']
-            if tid in poses:
-                landmarks = poses[tid]
-                # Check wrist velocities (simplification: if wrist is moving very fast relative to hips)
-                # For brevity, we'll use a combined metric
-                v = velocities.get(tid, 0)
-                if v > 400:
-                    # Check if they are close to someone else
-                    for other in detections:
-                        if other['id'] == tid: continue
-                        
-                        c1 = np.array([(det['bbox'][0] + det['bbox'][2])/2, (det['bbox'][1] + det['bbox'][3])/2])
-                        c2 = np.array([(other['bbox'][0] + other['bbox'][2])/2, (other['bbox'][1] + other['bbox'][3])/2])
-                        dist = np.linalg.norm(c1 - c2)
-                        
-                        if dist < 100:
-                            threats.append({
-                                "type": "ASSAULT",
-                                "severity": "CRITICAL",
-                                "confidence": min(1.0, v / 600.0),
-                                "ids": [tid, other['id']],
-                                "description": f"Targeted assault behavior detected: ID {tid} on {other['id']}"
-                            })
-        return threats
+        for p in persons:
+            v = p.get("velocity", 0.0)
+            if v > max_velocity:
+                max_velocity = v
+                attacker_id = p["id"]
+
+        confidence = 0.0
+        if max_velocity > self.impact_threshold:
+            confidence += 0.4
+            
+        # If optical flow spikes near a person
+        if motion_data.get("spike_detected"):
+            confidence += 0.3
+            
+        # Pose evidence
+        for p in persons:
+            if p.get("action") in ["Punching", "Kicking"]:
+                confidence += 0.5
+                attacker_id = p["id"]
+
+        confidence = min(confidence, 1.0)
+        return {
+            "detected": confidence > 0.85,
+            "confidence": confidence,
+            "attacker_id": attacker_id,
+            "type": "Physical Assault"
+        }

@@ -1,49 +1,39 @@
-import time
 from typing import List, Dict, Any
-from classifier.skeleton_analyzer import SkeletonAnalyzer
+from loguru import logger
 
 class UnconsciousDetector:
-    """
-    Detects prolonged stillness in a horizontal posture.
-    """
-    def __init__(self, stillness_threshold: int = 15):
-        self.stillness_threshold = stillness_threshold
-        # {id: start_time}
-        self.horizontal_history: Dict[int, float] = {}
+    """Detects unconscious persons based on prolonged horizontal stillness."""
 
-    def detect(self, detections: List[Dict[str, Any]], poses: Dict[int, Any], velocities: Dict[int, float]) -> List[Dict[str, Any]]:
-        threats = []
-        current_time = time.time()
-        active_ids = set()
+    def __init__(self, stillness_frames: int = 100):
+        self.stillness_frames = stillness_frames
+        self.stillness_counters: Dict[int, int] = {} # id -> frames
 
-        for det in detections:
-            tid = det['id']
-            if tid not in poses: continue
+    def detect(self, persons: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Detects individuals lying down with near-zero movement for a long time.
+        """
+        unconscious_persons = []
+        active_ids = []
+
+        for p in persons:
+            active_ids.append(p["id"])
+            features = p.get("pose_features", {})
+            velocity = p.get("velocity", 0.0)
             
-            active_ids.add(tid)
-            posture = SkeletonAnalyzer.get_posture_score(poses[tid])
-            v = velocities.get(tid, 0)
-            
-            if posture.get('horizontal', 0) > 0.8 and v < 5:
-                if tid not in self.horizontal_history:
-                    self.horizontal_history[tid] = current_time
-                else:
-                    duration = current_time - self.horizontal_history[tid]
-                    if duration > self.stillness_threshold:
-                        threats.append({
-                            "type": "UNCONSCIOUS",
-                            "severity": "HIGH",
-                            "confidence": min(1.0, duration / 60.0),
-                            "ids": [tid],
-                            "description": f"Person ID {tid} has been horizontal and still for {int(duration)}s"
-                        })
+            # Condition: Horizontal posture + low velocity
+            if features.get("is_horizontal") and velocity < 2.0:
+                self.stillness_counters[p["id"]] = self.stillness_counters.get(p["id"], 0) + 1
             else:
-                if tid in self.horizontal_history:
-                    del self.horizontal_history[tid]
+                self.stillness_counters[p["id"]] = 0
 
-        # Cleanup lost tracks
-        lost_ids = set(self.horizontal_history.keys()) - active_ids
-        for lid in lost_ids:
-            del self.horizontal_history[lid]
+            if self.stillness_counters[p["id"]] > self.stillness_frames:
+                unconscious_persons.append({
+                    "id": p["id"],
+                    "confidence": 0.9,
+                    "duration": self.stillness_counters[p["id"]]
+                })
 
-        return threats
+        # Cleanup
+        self.stillness_counters = {k: v for k, v in self.stillness_counters.items() if k in active_ids}
+        
+        return unconscious_persons
