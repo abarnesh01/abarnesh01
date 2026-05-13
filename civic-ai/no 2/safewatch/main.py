@@ -1,3 +1,5 @@
+# SafeWatch AI - Production Build v1.0.1
+# Finalized and Synced to GitHub with correct author attribution.
 import cv2
 import yaml
 import time
