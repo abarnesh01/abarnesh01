@@ -1,11 +1,25 @@
-import unittest
-from alerts.alert_manager import AlertManager
+import pytest
+import os
+from pathlib import Path
+from safewatch.alerts.snapshot_builder import SnapshotBuilder
 
-class TestAlerts(unittest.TestCase):
-    def test_alert_manager_init(self):
-        # Initialize without telegram credentials
-        manager = AlertManager(telegram_enabled=False)
-        self.assertIsNotNone(manager)
+def test_snapshot_builder_directory():
+    test_dir = "recordings/test_snapshots"
+    builder = SnapshotBuilder(output_dir=test_dir)
+    assert Path(test_dir).exists()
+    # Cleanup
+    if Path(test_dir).exists():
+        os.rmdir(test_dir)
 
-if __name__ == "__main__":
-    unittest.main()
+def test_alert_manager_init():
+    # Mocking config and logger would be better, but testing init for now
+    from safewatch.alerts.alert_manager import AlertManager
+    from safewatch.database.incident_logger import IncidentLogger
+    from safewatch.database.db_manager import DatabaseManager
+    
+    db = DatabaseManager(":memory:")
+    logger = IncidentLogger(db)
+    config = {"alerts": {"telegram_enabled": False}, "system": {"snapshots_dir": "recordings/snapshots"}}
+    
+    manager = AlertManager(config, logger)
+    assert manager.enabled == False
