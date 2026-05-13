@@ -10,6 +10,8 @@ streamlit
 imutils
 Pillow
 schedule
+psutil
+plotly
 loguru
 pytorch-lightning
 torch
