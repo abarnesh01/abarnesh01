@@ -1,129 +1,83 @@
 import streamlit as st
-import pandas as pd
 import cv2
-import time
-import sys
-import os
+import pandas as pd
 from pathlib import Path
+import time
+from datetime import datetime
+import os
+import yaml
 
-# Add project root to sys.path
+# Add parent directory to path to allow relative imports
+import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
-from database.db_manager import db
-from database.incident_logger import IncidentLogger
-import plotly.express as px
+from database.db_manager import DatabaseManager
 
-# Page Config
-st.set_page_config(
-    page_title="SafeWatch SOC Dashboard",
-    page_icon="🛡️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# Custom CSS for Dark Theme SOC look
-st.markdown("""
-    <style>
-    .main { background-color: #0e1117; }
-    .stMetric { background-color: #1a1c24; padding: 15px; border-radius: 10px; border: 1px solid #30363d; }
-    .css-1d391kg { background-color: #161b22; }
-    </style>
-    """, unsafe_allow_html=True)
+def load_config():
+    with open("config.yaml", "r") as f:
+        return yaml.safe_load(f)
 
 def main():
-    st.sidebar.title("🛡️ SafeWatch SOC")
-    page = st.sidebar.selectbox("Navigation", ["Live Monitor", "Incident History", "Analytics", "System Settings"])
+    st.set_page_config(page_title="SafeWatch SOC Dashboard", layout="wide", initial_sidebar_state="expanded")
+    st.title("🛡️ SafeWatch - Enterprise Surveillance Intelligence")
+
+    config = load_config()
+    db = DatabaseManager(config["database"]["path"])
+
+    # Sidebar
+    st.sidebar.header("System Status")
+    st.sidebar.info(f"Version: {config['system']['version']}")
+    
+    page = st.sidebar.selectbox("Navigation", ["Live Monitor", "Incident History", "Analytics", "Settings"])
 
     if page == "Live Monitor":
-        show_live_monitor()
+        st.header("Real-Time Camera Monitoring")
+        
+        cols = st.columns(2)
+        for i, cam in enumerate(config["cameras"]):
+            if cam["enabled"]:
+                with cols[i % 2]:
+                    st.subheader(f"{cam['name']} ({cam['id']})")
+                    # In a real production build with Streamlit, we would use a WebRTC or MJPEG stream component
+                    # Here we show a placeholder for the live feed
+                    st.image("https://via.placeholder.com/640x360.png?text=SafeWatch+Live+Feed", use_column_width=True)
+                    st.write(f"Source: `{cam['source']}`")
+
     elif page == "Incident History":
-        show_incident_history()
+        st.header("Recent Threat Incidents")
+        
+        incidents = db.fetch_all("SELECT * FROM incidents ORDER BY timestamp DESC LIMIT 100")
+        if incidents:
+            df = pd.DataFrame(incidents)
+            st.dataframe(df, use_container_width=True)
+            
+            # View snapshots
+            st.subheader("Visual Evidence")
+            selected_id = st.selectbox("Select Incident ID to view snapshot", df["id"].tolist())
+            row = next(i for i in incidents if i["id"] == selected_id)
+            if row["snapshot_path"] and os.path.exists(row["snapshot_path"]):
+                st.image(row["snapshot_path"], caption=f"Incident {selected_id}: {row['threat_type']}")
+            else:
+                st.info("No snapshot available for this incident.")
+        else:
+            st.info("No incidents recorded yet.")
+
     elif page == "Analytics":
-        show_analytics()
-    elif page == "System Settings":
-        show_settings()
-
-def show_live_monitor():
-    st.title("🔴 Real-Time Surveillance Monitor")
-    
-    # Placeholder for live streams
-    cols = st.columns(2)
-    with cols[0]:
-        st.subheader("Camera 0: Front Entrance")
-        st.image("https://via.placeholder.com/640x360.png?text=Live+Stream+0", use_column_width=True)
-        st.info("Status: Online | FPS: 15.2")
-        
-    with cols[1]:
-        st.subheader("Camera 1: Back Alley")
-        st.image("https://via.placeholder.com/640x360.png?text=Live+Stream+1", use_column_width=True)
-        st.warning("Status: Reconnecting...")
-
-    st.divider()
-    
-    st.subheader("⚠️ Active Threats")
-    incidents = IncidentLogger.get_recent_incidents(limit=5)
-    if incidents:
-        for inc in incidents:
-            with st.expander(f"{inc['threat_type']} - {inc['severity']} ({inc['timestamp']})"):
-                st.write(f"Camera: {inc['camera_name']}")
-                st.write(f"Confidence: {inc['confidence']:.2f}")
-                if inc['snapshot_path'] and Path(inc['snapshot_path']).exists():
-                    st.image(inc['snapshot_path'], width=400)
-    else:
-        st.success("No active threats detected.")
-
-def show_incident_history():
-    st.title("📜 Incident History")
-    
-    incidents = IncidentLogger.get_recent_incidents(limit=100)
-    if incidents:
-        df = pd.DataFrame(incidents)
-        st.dataframe(df, use_container_width=True)
-        
-        if st.button("Export to CSV"):
-            IncidentLogger.export_to_csv("logs/incidents_export.csv")
-            st.success("Exported to logs/incidents_export.csv")
-    else:
-        st.info("No incident records found.")
-
-def show_analytics():
-    st.title("📊 Security Intelligence")
-    
-    incidents = IncidentLogger.get_recent_incidents(limit=1000)
-    if incidents:
-        df = pd.DataFrame(incidents)
-        
-        c1, c2 = st.columns(2)
-        with c1:
-            fig_pie = px.pie(df, names='threat_type', title='Threat Distribution', hole=0.4)
-            st.plotly_chart(fig_pie)
+        st.header("System Analytics")
+        incidents = db.fetch_all("SELECT threat_type, severity, timestamp FROM incidents")
+        if incidents:
+            df = pd.DataFrame(incidents)
+            st.subheader("Incidents by Type")
+            st.bar_chart(df["threat_type"].value_counts())
             
-        with c2:
-            fig_bar = px.histogram(df, x='camera_name', color='severity', title='Incidents per Camera')
-            st.plotly_chart(fig_bar)
-            
-        st.subheader("Trend Analysis")
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
-        df_time = df.resample('H', on='timestamp').count().reset_index()
-        fig_line = px.line(df_time, x='timestamp', y='id', title='Incident Frequency (Hourly)')
-        st.plotly_chart(fig_line, use_container_width=True)
-    else:
-        st.info("Insufficient data for analytics.")
+            st.subheader("Severity Distribution")
+            st.pie_chart(df["severity"].value_counts())
+        else:
+            st.info("Insufficient data for analytics.")
 
-def show_settings():
-    st.title("⚙️ System Configuration")
-    
-    with st.form("settings_form"):
-        st.subheader("Model Settings")
-        yolo_path = st.text_input("YOLO Model Path", "models/yolov8n.pt")
-        conf_thresh = st.slider("Confidence Threshold", 0.1, 1.0, 0.25)
-        
-        st.subheader("Alert Settings")
-        tg_enabled = st.checkbox("Enable Telegram Alerts", value=True)
-        snapshot_enabled = st.checkbox("Save Snapshots", value=True)
-        
-        if st.form_submit_button("Save Configuration"):
-            st.success("Configuration updated and saved to database.")
+    elif page == "Settings":
+        st.header("System Configuration")
+        st.json(config)
 
 if __name__ == "__main__":
     main()

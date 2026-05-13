@@ -1,74 +1,66 @@
 import asyncio
-import os
 from telegram import Bot
-from telegram.request import HTTPXRequest
+from telegram.constants import ParseMode
 from loguru import logger
-from typing import Optional
-from dotenv import load_dotenv
-
-load_dotenv()
+from typing import Optional, List
+import os
 
 class TelegramAlertBot:
-    """
-    Asynchronous Telegram bot for dispatching security alerts.
-    Supports retries and snapshot uploads.
-    """
-    def __init__(self):
-        self.token = os.getenv("TELEGRAM_BOT_TOKEN")
-        self.chat_id = os.getenv("TELEGRAM_CHAT_ID")
-        self.enabled = bool(self.token and self.chat_id)
-        
-        if self.enabled:
-            # High-performance request handler
-            request = HTTPXRequest(connection_pool_size=8)
-            self.bot = Bot(token=self.token, request=request)
-            logger.info("Telegram Alert Bot initialized.")
-        else:
-            logger.warning("Telegram credentials missing. Alerts disabled.")
+    """Async Telegram bot for dispatching security alerts with images."""
 
-    async def send_text(self, message: str):
-        """Sends a text-based alert."""
-        if not self.enabled: return
+    def __init__(self, token: str, chat_id: str):
+        self.token = token
+        self.chat_id = chat_id
+        self.bot: Optional[Bot] = None
         
-        try:
-            await self.bot.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
-            logger.success("Telegram text alert sent.")
-        except Exception as e:
-            logger.error(f"Failed to send Telegram message: {e}")
+        if token and chat_id:
+            try:
+                self.bot = Bot(token=token)
+                logger.info("Telegram Bot initialized.")
+            except Exception as e:
+                logger.error(f"Failed to initialize Telegram Bot: {e}")
 
-    async def send_snapshot(self, photo_path: str, caption: str):
-        """Sends a snapshot with a caption."""
-        if not self.enabled: return
-        
-        if not os.path.exists(photo_path):
-            logger.error(f"Snapshot path does not exist: {photo_path}")
+    async def send_alert(self, 
+                         message: str, 
+                         image_path: Optional[str] = None, 
+                         severity: str = "INFO"):
+        """Sends a text message and optional image to the configured chat."""
+        if not self.bot:
+            logger.warning("Telegram Bot not configured. Skipping alert.")
             return
 
-        try:
-            with open(photo_path, 'rb') as photo:
-                await self.bot.send_photo(
-                    chat_id=self.chat_id, 
-                    photo=photo, 
-                    caption=caption,
-                    parse_mode='Markdown'
-                )
-            logger.success(f"Telegram snapshot alert sent: {photo_path}")
-        except Exception as e:
-            logger.error(f"Failed to send Telegram snapshot: {e}")
-
-    def dispatch_alert(self, message: str, snapshot_path: Optional[str] = None):
-        """Non-blocking wrapper for async alert dispatch."""
-        if not self.enabled: return
+        formatted_msg = f"<b>[SafeWatch {severity}]</b>\n{message}"
         
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            if snapshot_path:
-                loop.create_task(self.send_snapshot(snapshot_path, message))
+        try:
+            if image_path and os.path.exists(image_path):
+                with open(image_path, 'rb') as photo:
+                    await self.bot.send_photo(
+                        chat_id=self.chat_id,
+                        photo=photo,
+                        caption=formatted_msg,
+                        parse_mode=ParseMode.HTML
+                    )
             else:
-                loop.create_task(self.send_text(message))
-        else:
-            # For standalone testing
-            if snapshot_path:
-                asyncio.run(self.send_snapshot(snapshot_path, message))
+                await self.bot.send_message(
+                    chat_id=self.chat_id,
+                    text=formatted_msg,
+                    parse_mode=ParseMode.HTML
+                )
+            logger.info("Telegram alert sent successfully.")
+        except Exception as e:
+            logger.error(f"Failed to send Telegram alert: {e}")
+
+    def dispatch_sync(self, message: str, image_path: Optional[str] = None, severity: str = "INFO"):
+        """Helper to call async send_alert from synchronous code."""
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                asyncio.create_task(self.send_alert(message, image_path, severity))
             else:
-                asyncio.run(self.send_text(message))
+                loop.run_until_complete(self.send_alert(message, image_path, severity))
+        except RuntimeError:
+            # Fallback for threads without an event loop
+            new_loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(new_loop)
+            new_loop.run_until_complete(self.send_alert(message, image_path, severity))
+            new_loop.close()
