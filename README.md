@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- HEADER SECTION -->
-<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=300&section=header&text=ABARNESH%20S.&fontSize=90&fontColor=00f5ff&animation=fadeIn&desc=CYBERSECURITY%20ARCHITECT%20|%20FULL%20STACK%20DEVELOPER&descSize=22&descAlignY=75&fontAlignY=40" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=rect&color=050505&height=300&section=header&text=ABARNESH%20S.&fontSize=90&fontColor=00f5ff&animation=fadeIn&desc=CYBERSECURITY%20ENGINEER%20|%20FULL%20STACK%20DEVELOPER%20|%20AI%20BUILDER&descSize=22&descAlignY=75&fontAlignY=40" width="100%" />
 
 <br/>
 
@@ -22,7 +22,7 @@
 </p>
 
 <!-- TYPING ANIMATION -->
-<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=26&duration=2500&pause=500&color=00f5ff&center=true&vCenter=true&width=700&height=60&lines=INITIALIZING+SECURITY+PROTOCOLS...;ARCHITECTING+SECURE+ECOSYSTEMS...;BUILDING+THE+FUTURE+OF+DEVSEC;WELCOME+TO+THE+NEXUS+CORE." alt="Nexus Intro" />
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=26&duration=2500&pause=500&color=00f5ff&center=true&vCenter=true&width=700&height=60&lines=BUILDING+THREAT+DETECTION+FOR+SMALL+BUSINESSES...;SHIPPING+BEFORE+I+FEEL+QUALIFIED...;AI+SECURITY+%7C+3D+WEB+%7C+FULL+STACK;3RD+YEAR.+ALREADY+BUILDING." alt="Nexus Intro" />
 
 <br/>
 
@@ -37,14 +37,14 @@
   <tr>
     <td width="60%" valign="top">
       <h2>🚀 EXECUTIVE_SUMMARY</h2>
-      <p>I am a <b>Cybersecurity Architect</b> and <b>Senior Full Stack Developer</b> specializing in the engineering of <b>zero-trust digital infrastructures</b> and <b>high-scale enterprise applications</b>.</p>
-      <p>My unique value proposition lies in the <b>convergence of offensive security expertise and modern software engineering</b>. I don't just build features; I architect <b>impenetrable systems</b> that prioritize data integrity and regulatory compliance without compromising on user experience or performance.</p>
+      <p>I am a <b>3rd year Computer Science student</b> specializing in <b>AI-powered cybersecurity tools</b> and <b>immersive 3D web experiences</b>.</p>
+      <p>I don't wait to be qualified. I ship. Currently obsessed with one problem: <b>small businesses get destroyed by cyberattacks they never saw coming</b> — and I'm building predictive threat detection tools to change that.</p>
       <br/>
-      <b>⚡ KEY STRENGTHS:</b>
+      <b>⚡ WHAT I'M BUILDING:</b>
       <ul>
-        <li><b>Security-First Development:</b> 100% adherence to OWASP & DevSecOps.</li>
-        <li><b>Scalable Architecture:</b> Expert in distributed systems & microservices.</li>
-        <li><b>Rapid Problem Solver:</b> 500+ GitHub contributions in the last year.</li>
+        <li><b>Predictive Threat Detection:</b> AI that catches attacks before they become damage.</li>
+        <li><b>3D Web Experiences:</b> Cinematic interfaces using Three.js and WebGL.</li>
+        <li><b>Security Tools:</b> Real-world SOC simulations and network anomaly detection.</li>
       </ul>
     </td>
     <td width="40%" valign="middle" align="center">
@@ -152,10 +152,10 @@
   <tr>
     <td width="50%" valign="top">
       <h3>🤝 COLLABORATION_PROTOCOL</h3>
-      <p>I am currently open to <b>Senior Cybersecurity Roles</b> and <b>High-Impact Full Stack Projects</b>. If you are building something that requires elite security and scalable architecture, let's talk.</p>
+      <p>I am a <b>3rd year student</b> actively building in cybersecurity and full stack development. Open to <b>internships</b> and <b>research collaborations</b> where I can contribute real work and learn from people building at a level beyond mine.</p>
       <ul>
         <li>📫 DM me on LinkedIn for a fast response.</li>
-        <li>💬 Open to technical advisory roles for startups.</li>
+        <li>💬 Always open to feedback on my projects.</li>
       </ul>
     </td>
     <td width="50%" valign="top">
@@ -191,7 +191,7 @@
 <!-- FOOTER -->
 <div align="center">
   <br/>
-  <p><i>"Architecting the invisible layers of the modern web."</i></p>
+  <p><i>"Ship before you're ready. Learn while you build."</i></p>
   <br/>
   
   <a href="https://www.buymeacoffee.com/abarnesh">
